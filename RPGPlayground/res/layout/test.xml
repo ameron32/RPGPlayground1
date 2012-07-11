@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test the File Serializer (Save/Load)" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/bRCSV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Read CSV" />
+
+        <Button
+            android:id="@+id/bRDAT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Read DATs" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/bWCSV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Write CSV" />
+
+        <Button
+            android:id="@+id/bWDAT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Write DATs" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test the Audio Recorder (Rec/Play)" />
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/bStartRec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Recording" />
+
+        <Button
+            android:id="@+id/bStopRec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop Recording" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/bPlayRec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play Recording" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvResultOfRecording"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>

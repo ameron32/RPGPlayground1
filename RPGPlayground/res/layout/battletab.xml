@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/tab2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <FrameLayout
+                android:layout_width="42dp"
+                android:layout_height="42dp" >
+
+                <ImageButton
+                    android:id="@+id/imageButton1"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:src="@drawable/healthpotion" />
+
+                <TextView
+                    android:id="@+id/tv4ibHealthPotion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:text="##"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/darker_gray" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp" >
+
+                    <ProgressBar
+                        android:id="@+id/pbMeHealth"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="100dp"
+                        android:layout_height="18dp"
+                        android:progressDrawable="@drawable/greenprogress" />
+
+                    <TextView
+                        android:id="@+id/tvMeHealth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="#1"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/darker_gray" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp" >
+
+                    <ProgressBar
+                        android:id="@+id/pbMeEnergy"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="100dp"
+                        android:layout_height="18dp" />
+
+                    <TextView
+                        android:id="@+id/tvMeEnergy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="#2"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/darker_gray" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="42dp"
+                android:layout_height="42dp" >
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:src="@drawable/manapotion" />
+
+                <TextView
+                    android:id="@+id/tv4ibHealthPotion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:text="##"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/darker_gray" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="42dp"
+                android:layout_height="42dp" >
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:src="@drawable/ammo" />
+
+                <TextView
+                    android:id="@+id/tv4ibHealthPotion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:text="##"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/darker_gray" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp" >
+
+            <ScrollView
+                android:id="@+id/scrollView8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp" >
+
+                                <ProgressBar
+                                    android:id="@+id/pbE1Health"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="100dp"
+                                    android:layout_height="18dp"
+                                    android:progressDrawable="@drawable/greenprogress" />
+
+                                <TextView
+                                    android:id="@+id/tvE1Health"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="#1"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@android:color/darker_gray" />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp" >
+
+                                <ProgressBar
+                                    android:id="@+id/pbE1Energy"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="100dp"
+                                    android:layout_height="18dp" />
+
+                                <TextView
+                                    android:id="@+id/tvE1Energy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="#2"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@android:color/darker_gray" />
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/bAttack"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:textSize="10dp"
+                            android:text="Attack" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/lTmpEnemy"
+                        layout="@layout/tmp" />
+
+                    <include
+                        android:id="@+id/lTmpEnemy"
+                        layout="@layout/tmp" />
+
+                    <include
+                        android:id="@+id/lTmpEnemy"
+                        layout="@layout/tmp" />
+
+                    <include
+                        android:id="@+id/lTmpEnemy"
+                        layout="@layout/tmp" />
+
+                    <include
+                        android:id="@+id/lTmpEnemy"
+                        layout="@layout/tmp" />
+
+                    <include
+                        android:id="@+id/lTmpEnemy"
+                        layout="@layout/tmp" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+
+                <Button
+                    android:id="@+id/bHeal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Heal" />
+
+                <Button
+                    android:id="@+id/bRun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Run" />
+
+                <Button
+                    android:id="@+id/bRest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rest" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[Player]" />
+
+            <TextView
+                android:id="@+id/tvE1Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[Enemy]" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
