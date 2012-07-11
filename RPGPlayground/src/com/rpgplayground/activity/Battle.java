@@ -2,7 +2,6 @@ package com.rpgplayground.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -456,8 +455,7 @@ public class Battle extends Activity implements View.OnClickListener {
 
 	private CharSequence buildCombatLog(Character c, int abilityId, Boolean last) {
 
-		// TODO CombatLog is currently broken, since it only uses a standard
-		// attack correctly. needs to be updated to work with abilities
+		// TODO now only functions correctly when successful
 
 		StringBuilder sb = new StringBuilder();
 		if (c == me) {
