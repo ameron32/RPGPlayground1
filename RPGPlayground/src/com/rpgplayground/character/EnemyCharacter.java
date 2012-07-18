@@ -1,5 +1,7 @@
 package com.rpgplayground.character;
 
+import com.rpgplayground.character.chclass.CharacterClassChoice;
+
 
 
 public class EnemyCharacter extends Character {
@@ -25,9 +27,9 @@ public class EnemyCharacter extends Character {
 	 * String setName, int setId, int setMaxHealth,
 	 * int setMaxEnergy, int setDamage, int setHealing, int setXPGain
 	 */
-	public EnemyCharacter(String setName, int setId, int setMaxHealth,
+	public EnemyCharacter(String setName, int setId, CharacterClassChoice setType, int setMaxHealth,
 			int setMaxEnergy, int setDamage, int setHealing, int setXPGain) {
-		super(setName, setId, setMaxHealth, setMaxEnergy, setDamage, setHealing);
+		super(setName, setId, setType, setMaxHealth, setMaxEnergy, setDamage, setHealing);
 		xpGain = setXPGain;
 	}
 

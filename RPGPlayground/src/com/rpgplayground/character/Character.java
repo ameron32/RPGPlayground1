@@ -6,6 +6,9 @@ import java.util.List;
 import com.rpgplayground.character.ability.Ability;
 import com.rpgplayground.character.ability.AbilitySelector;
 import com.rpgplayground.character.ability.CharacterAbilities;
+import com.rpgplayground.character.chclass.CharacterClass;
+import com.rpgplayground.character.chclass.CharacterClassChoice;
+import com.rpgplayground.character.chclass.ClassChooser;
 import com.rpgplayground.character.equipment.CharacterEquipment;
 import com.rpgplayground.character.inventory.CharacterInventory;
 import com.rpgplayground.character.item.Armor;
@@ -26,6 +29,7 @@ public class Character {
 	int totalCalculatedResistance;
 	int baseHealing;
 	int totalCalculatedHealing;
+	CharacterClass myClass = new CharacterClass();
 
 	CharacterAbilities myAbilities = new CharacterAbilities();
 	CharacterEquipment myEquipment = new CharacterEquipment();
@@ -48,7 +52,7 @@ public class Character {
 		updateTotals();
 	}
 
-	public Character(String setName, int setId, int setMaxHealth,
+	public Character(String setName, int setId, CharacterClassChoice setType, int setMaxHealth,
 			int setMaxEnergy, int setDamage, int setHealing) {
 		name = setName;
 		id = setId;
@@ -56,6 +60,9 @@ public class Character {
 		currentEnergy = maxEnergy = setMaxEnergy;
 		baseDamage = setDamage;
 		baseHealing = setHealing;
+		
+		ClassChooser cc = new ClassChooser();
+		myClass = cc.getCharacterClass(setType);
 		updateTotals();
 	}
 
@@ -107,7 +114,7 @@ public class Character {
 	}
 
 	public void addToEquippedItems(List<Item> itemsToAdd) {
-		// TODO
+
 		for (Item item : itemsToAdd) {
 			if (item.getType() == "armor") {
 				Armor armor = (Armor) item;
@@ -353,5 +360,13 @@ public class Character {
 
 	private void setTotalCalculatedHealing(int totalCalculatedHealing) {
 		this.totalCalculatedHealing = totalCalculatedHealing;
+	}
+	
+	public void setCharacterClassChoice(CharacterClassChoice myClassType) {
+		myClass.setMyClassType(myClassType);
+	}
+	
+	public CharacterClassChoice getCharacterClassChoice() {
+		return myClass.getMyClassType();
 	}
 }

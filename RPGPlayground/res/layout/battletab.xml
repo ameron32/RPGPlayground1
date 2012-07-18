@@ -9,20 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
 
             <FrameLayout
-                android:layout_width="42dp"
-                android:layout_height="42dp" >
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                 >
 
                 <ImageButton
                     android:id="@+id/imageButton1"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:src="@drawable/healthpotion" />
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:src="@drawable/healthpotion"
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/tv4ibHealthPotion"
@@ -33,7 +36,7 @@
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/darker_gray" />
             </FrameLayout>
-
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -42,20 +45,29 @@
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp" >
+                    android:layout_height="26dp" >
 
                     <ProgressBar
                         android:id="@+id/pbMeHealth"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="100dp"
-                        android:layout_height="18dp"
+                        android:layout_width="125dp"
+                        android:layout_height="24dp"
                         android:progressDrawable="@drawable/greenprogress" />
+
+                    <TextView
+                        android:id="@+id/tvMeName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:text="Name"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/tvMeHealth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="right|center"
                         android:text="#1"
                         android:textColor="@android:color/white"
                         android:textColorHint="@android:color/darker_gray" />
@@ -63,19 +75,28 @@
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp" >
+                    android:layout_height="26dp" >
 
                     <ProgressBar
                         android:id="@+id/pbMeEnergy"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="100dp"
-                        android:layout_height="18dp" />
+                        android:layout_width="125dp"
+                        android:layout_height="24dp" />
+
+                    <TextView
+                        android:id="@+id/tvMeClass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:text="Class"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/tvMeEnergy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="right|center"
                         android:text="#2"
                         android:textColor="@android:color/white"
                         android:textColorHint="@android:color/darker_gray" />
@@ -83,13 +104,15 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="42dp"
-                android:layout_height="42dp" >
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center" >
 
                 <ImageButton
                     android:id="@+id/imageButton2"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/manapotion" />
 
                 <TextView
@@ -103,13 +126,15 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="42dp"
-                android:layout_height="42dp" >
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center" >
 
                 <ImageButton
                     android:id="@+id/imageButton3"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/ammo" />
 
                 <TextView
@@ -141,28 +166,38 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" >
-
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical" >
+                            android:orientation="vertical"
+                            android:layout_gravity="center" >
 
                             <FrameLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="20dp" >
+                                android:layout_height="26dp" >
 
                                 <ProgressBar
                                     android:id="@+id/pbE1Health"
                                     style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="100dp"
-                                    android:layout_height="18dp"
+                                    android:layout_width="175dp"
+                                    android:layout_height="24dp"
                                     android:progressDrawable="@drawable/greenprogress" />
+
+                                <TextView
+                                    android:id="@+id/tvE1Name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|center"
+                                    android:text="Name"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@android:color/darker_gray" />
 
                                 <TextView
                                     android:id="@+id/tvE1Health"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
+                                    android:layout_gravity="right|center"
                                     android:text="#1"
                                     android:textColor="@android:color/white"
                                     android:textColorHint="@android:color/darker_gray" />
@@ -170,56 +205,46 @@
 
                             <FrameLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="20dp" >
+                                android:layout_height="26dp" >
 
                                 <ProgressBar
                                     android:id="@+id/pbE1Energy"
                                     style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="100dp"
-                                    android:layout_height="18dp" />
+                                    android:layout_width="175dp"
+                                    android:layout_height="24dp" />
+
+                                <TextView
+                                    android:id="@+id/tvE1Class"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|center"
+                                    android:text="Class"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@android:color/darker_gray" />
 
                                 <TextView
                                     android:id="@+id/tvE1Energy"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
+                                    android:layout_gravity="right|center"
                                     android:text="#2"
                                     android:textColor="@android:color/white"
                                     android:textColorHint="@android:color/darker_gray" />
                             </FrameLayout>
                         </LinearLayout>
-
-                        <Button
+
+                        <ImageButton
                             android:id="@+id/bAttack"
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:textSize="10dp"
-                            android:text="Attack" />
+                            android:layout_width="54dp"
+                            android:layout_height="54dp"
+                            android:src="@drawable/attack" />
+
                     </LinearLayout>
 
                     <include
                         android:id="@+id/lTmpEnemy"
                         layout="@layout/tmp" />
 
-                    <include
-                        android:id="@+id/lTmpEnemy"
-                        layout="@layout/tmp" />
-
-                    <include
-                        android:id="@+id/lTmpEnemy"
-                        layout="@layout/tmp" />
-
-                    <include
-                        android:id="@+id/lTmpEnemy"
-                        layout="@layout/tmp" />
-
-                    <include
-                        android:id="@+id/lTmpEnemy"
-                        layout="@layout/tmp" />
-
-                    <include
-                        android:id="@+id/lTmpEnemy"
-                        layout="@layout/tmp" />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
@@ -26,6 +27,7 @@ import com.rpgplayground.character.Character;
 import com.rpgplayground.character.EnemyCharacter;
 import com.rpgplayground.character.ability.Ability;
 import com.rpgplayground.character.ability.AbilitySelector;
+import com.rpgplayground.character.chclass.CharacterClassChoice;
 import com.rpgplayground.character.equipment.ArmorSlot;
 import com.rpgplayground.character.item.Armor;
 import com.rpgplayground.character.item.Item;
@@ -45,19 +47,20 @@ public class Battle extends Activity implements View.OnClickListener {
 	// needed for Dialog
 	final Context context = this;
 
-	Button start, reset, attack, setName, heal, run, rest, meItem, e1Item,
+	Button start, reset, setName, heal, run, rest, meItem, e1Item,
 			selectName, selectHead, selectChest, selectArms, selectLegs;
-	TextView e1Name, e1Health, e1Energy, e1tv, meName, meHealth, meEnergy,
-			metv, meXPtext, combatLog, nName, headName, headArmor, headBoost,
-			headGValue, chestName, chestArmor, chestBoost, chestGValue,
-			worldNewsText;
+	ImageButton attack;
+	TextView e1Name, e1Class, e1Health, e1Energy, e1tv, meName, meClass,
+			meHealth, meEnergy, metv, meXPtext, combatLog, nName, headName,
+			headArmor, headBoost, headGValue, chestName, chestArmor,
+			chestBoost, chestGValue, worldNewsText;
 	EditText editName;
 	ProgressBar e1HPb, e1EPb, meHPb, meEPb;
 
 	BattleHelper bh = new BattleHelper();
 	EnemyCharacter e1 = new EnemyCharacter();
 	Character me = new Character();
-	int meXP;
+	int meXP = 0;
 	String e1s = "------";
 	String combatLogString = "";
 
@@ -106,7 +109,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		setName = (Button) findViewById(R.id.bSetName);
 		start = (Button) findViewById(R.id.bStart);
 		reset = (Button) findViewById(R.id.bReset);
-		attack = (Button) findViewById(R.id.bAttack);
+		attack = (ImageButton) findViewById(R.id.bAttack);
 		// attack Dialog initialization
 		attack.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
@@ -181,9 +184,11 @@ public class Battle extends Activity implements View.OnClickListener {
 		selectLegs = (Button) findViewById(R.id.bSelectLegs);
 
 		e1Name = (TextView) findViewById(R.id.tvE1Name);
+		e1Class = (TextView) findViewById(R.id.tvE1Class);
 		e1Health = (TextView) findViewById(R.id.tvE1Health);
 		e1Energy = (TextView) findViewById(R.id.tvE1Energy);
 		meName = (TextView) findViewById(R.id.tvMeName);
+		meClass = (TextView) findViewById(R.id.tvMeClass);
 		meHealth = (TextView) findViewById(R.id.tvMeHealth);
 		meEnergy = (TextView) findViewById(R.id.tvMeEnergy);
 		metv = (TextView) findViewById(R.id.tvMeString);
@@ -234,7 +239,8 @@ public class Battle extends Activity implements View.OnClickListener {
 		List<Ability> characterAbilities = new ArrayList<Ability>();
 		characterAbilities.add(as.getAbility(10101));
 		characterAbilities.add(as.getAbility(10201));
-		initializeCharacter(me, 20, 12, 2, 10, characterAbilities);
+		initializeCharacter(me, CharacterClassChoice.Fighter, 20, 12, 2, 10,
+				characterAbilities);
 
 		startWorldNewsTimer();
 
@@ -414,6 +420,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		e1Health.setText(e1.getCurrentHealth() + " / " + e1.getMaxHealth());
 		e1Energy.setText(e1.getCurrentEnergy() + " / " + e1.getMaxEnergy());
 		e1Name.setText(e1.getName());
+		e1Class.setText(e1.getCharacterClassChoice().toString());
 		if (e1.getMaxHealth() <= 0) {
 			e1HPb.setMax(1);
 			e1HPb.setProgress(0);
@@ -434,6 +441,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		meHealth.setText(me.getCurrentHealth() + " / " + me.getMaxHealth());
 		meEnergy.setText(me.getCurrentEnergy() + " / " + me.getMaxEnergy());
 		meName.setText(me.getName());
+		meClass.setText(me.getCharacterClassChoice().toString());
 		if (me.getMaxHealth() <= 0) {
 			meHPb.setMax(1);
 			meHPb.setProgress(0);
@@ -492,15 +500,17 @@ public class Battle extends Activity implements View.OnClickListener {
 	 * @param Character
 	 *            c, int health, int energy, int damage, int healing
 	 */
-	private void initializeCharacter(Character c, int health, int energy,
-			int damage, int healing, List<Ability> characterAbilities) {
+	private void initializeCharacter(Character c, CharacterClassChoice myClass,
+			int health, int energy, int damage, int healing,
+			List<Ability> characterAbilities) {
 
-		// Set the enemy stats
+		// Set the stats
 		c.setStartingHealth(health);
 		c.setStartingEnergy(energy);
 		c.setBaseDamage(damage);
 		c.setBaseHealing(healing);
 		c.setId(0);
+		c.setCharacterClassChoice(myClass);
 
 		setEquippedItems(c);
 		c.overwriteAllCurrentAbilities(characterAbilities);
@@ -619,7 +629,8 @@ public class Battle extends Activity implements View.OnClickListener {
 	}
 
 	private void resetEnemy() {
-		e1 = new EnemyCharacter("-", 0, 0, 0, 0, 0, 0);
+		e1 = new EnemyCharacter("-", 0, CharacterClassChoice.noClass, 0, 0, 0,
+				0, 0);
 		updateDisplay();
 	}
 

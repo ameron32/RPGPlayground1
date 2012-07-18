@@ -18,7 +18,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center" >
-
             </LinearLayout>
 
             <LinearLayout
@@ -31,7 +30,6 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical" >
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -39,12 +37,6 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/tvE1Name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="[Enemy]" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -58,8 +50,6 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical" >
-
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -67,15 +57,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/tvMeName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="[Player]" />
                 </LinearLayout>
-
-                
             </LinearLayout>
 
             <LinearLayout
