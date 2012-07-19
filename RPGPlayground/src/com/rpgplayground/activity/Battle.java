@@ -49,7 +49,7 @@ public class Battle extends Activity implements View.OnClickListener {
 
 	Button start, reset, setName, heal, run, rest, meItem, e1Item,
 			selectName, selectHead, selectChest, selectArms, selectLegs;
-	ImageButton attack, e1Profile;
+	ImageButton attack, e1Profile, meHeal;
 	TextView e1Name, e1Class, e1Health, e1Energy, e1tv, meName, meClass,
 			meHealth, meEnergy, metv, meXPtext, combatLog, nName, headName,
 			headArmor, headBoost, headGValue, chestName, chestArmor,
@@ -152,6 +152,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		});
 		
 		heal = (Button) findViewById(R.id.bHeal);
+		meHeal = (ImageButton) findViewById(R.id.ibMeHeal);
 		run = (Button) findViewById(R.id.bRun);
 		rest = (Button) findViewById(R.id.bRest);
 		e1Item = (Button) findViewById(R.id.bE1Item);
@@ -203,6 +204,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		reset.setOnClickListener(this);
 		// attack.setOnClickListener(this);
 		heal.setOnClickListener(this);
+		meHeal.setOnClickListener(this);
 		run.setOnClickListener(this);
 		rest.setOnClickListener(this);
 		e1Item.setOnClickListener(this);
@@ -293,6 +295,15 @@ public class Battle extends Activity implements View.OnClickListener {
 
 		// R.id.bAttack does not use the same onClickListener
 		case R.id.bHeal:
+			if (me.getCurrentEnergy() > 0) {
+				turns("heal");
+			} else {
+				Toast.makeText(getApplicationContext(), "Out of Energy",
+						Toast.LENGTH_SHORT).show();
+			}
+			break;
+			
+		case R.id.ibMeHeal:
 			if (me.getCurrentEnergy() > 0) {
 				turns("heal");
 			} else {
