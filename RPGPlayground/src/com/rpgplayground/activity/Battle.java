@@ -12,9 +12,9 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -67,7 +67,7 @@ public class Battle extends Activity implements View.OnClickListener {
 	Boolean firstRun = true;
 	Boolean worldNewsIsVisible = false;
 
-	HorizontalScrollView worldNews;
+	LinearLayout worldNews;
 
 	// endregion Fields
 
@@ -80,28 +80,6 @@ public class Battle extends Activity implements View.OnClickListener {
 		setContentView(R.layout.phone);
 		initialize();
 		welcomeDialog();
-	}
-
-	private void welcomeDialog() {
-		final Dialog whatsNewDialog = new Dialog(context);
-		whatsNewDialog.setContentView(R.layout.whatsnew);
-		whatsNewDialog.setTitle("New since last version...");
-
-		TextView versionNumber = (TextView) whatsNewDialog
-				.findViewById(R.id.tvVersionNumber);
-		TextView versionInfo = (TextView) whatsNewDialog
-				.findViewById(R.id.tvVersionInfo);
-		Button closeDialog = (Button) whatsNewDialog
-				.findViewById(R.id.bWhatsNewClose);
-		closeDialog.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// custom dialog
-				whatsNewDialog.dismiss();
-			}
-		});
-		versionNumber.setText(ver);
-		versionInfo.setText(buildVersionInfo());
-		whatsNewDialog.show();
 	}
 
 	// region Initialize
@@ -216,7 +194,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		meHPb = (ProgressBar) findViewById(R.id.pbMeHealth);
 		meEPb = (ProgressBar) findViewById(R.id.pbMeEnergy);
 
-		worldNews = (HorizontalScrollView) findViewById(R.id.lWorldNews);
+		worldNews = (LinearLayout) findViewById(R.id.lWorldNews);
 		worldNewsText = (TextView) findViewById(R.id.tvWorldNews);
 		worldNewsText.setOnClickListener(this);
 
@@ -708,5 +686,27 @@ public class Battle extends Activity implements View.OnClickListener {
 		}
 
 		return infoBuilder.toString();
+	}
+
+	private void welcomeDialog() {
+		final Dialog whatsNewDialog = new Dialog(context);
+		whatsNewDialog.setContentView(R.layout.whatsnew);
+		whatsNewDialog.setTitle("New since last version...");
+	
+		TextView versionNumber = (TextView) whatsNewDialog
+				.findViewById(R.id.tvVersionNumber);
+		TextView versionInfo = (TextView) whatsNewDialog
+				.findViewById(R.id.tvVersionInfo);
+		Button closeDialog = (Button) whatsNewDialog
+				.findViewById(R.id.bWhatsNewClose);
+		closeDialog.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// custom dialog
+				whatsNewDialog.dismiss();
+			}
+		});
+		versionNumber.setText(ver);
+		versionInfo.setText(buildVersionInfo());
+		whatsNewDialog.show();
 	}
 }

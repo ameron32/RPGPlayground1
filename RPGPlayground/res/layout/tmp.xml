@@ -75,6 +75,6 @@
         android:id="@+id/bAttack"
         android:layout_width="54dp"
         android:layout_height="54dp"
-        android:src="@drawable/attack" />
+        android:src="@drawable/attack" android:background="@null"/>
 
 </LinearLayout>
