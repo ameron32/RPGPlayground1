@@ -49,7 +49,7 @@ public class Battle extends Activity implements View.OnClickListener {
 
 	Button start, reset, setName, heal, run, rest, meItem, e1Item,
 			selectName, selectHead, selectChest, selectArms, selectLegs;
-	ImageButton attack;
+	ImageButton attack, e1Profile;
 	TextView e1Name, e1Class, e1Health, e1Energy, e1tv, meName, meClass,
 			meHealth, meEnergy, metv, meXPtext, combatLog, nName, headName,
 			headArmor, headBoost, headGValue, chestName, chestArmor,
@@ -109,6 +109,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		setName = (Button) findViewById(R.id.bSetName);
 		start = (Button) findViewById(R.id.bStart);
 		reset = (Button) findViewById(R.id.bReset);
+		
 		attack = (ImageButton) findViewById(R.id.bAttack);
 		// attack Dialog initialization
 		attack.setOnClickListener(new OnClickListener() {
@@ -171,11 +172,14 @@ public class Battle extends Activity implements View.OnClickListener {
 				dialog.show();
 			}
 		});
+		
 		heal = (Button) findViewById(R.id.bHeal);
 		run = (Button) findViewById(R.id.bRun);
 		rest = (Button) findViewById(R.id.bRest);
 		e1Item = (Button) findViewById(R.id.bE1Item);
 		meItem = (Button) findViewById(R.id.bMeItem);
+		
+		e1Profile = (ImageButton) findViewById(R.id.ibE1Profile);
 
 		selectName = (Button) findViewById(R.id.bSelectName);
 		selectHead = (Button) findViewById(R.id.bSelectHead);
@@ -421,6 +425,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		e1Energy.setText(e1.getCurrentEnergy() + " / " + e1.getMaxEnergy());
 		e1Name.setText(e1.getName());
 		e1Class.setText(e1.getCharacterClassChoice().toString());
+		e1Profile.setImageResource(((EnemyCharacter) e1).getImageResource());
 		if (e1.getMaxHealth() <= 0) {
 			e1HPb.setMax(1);
 			e1HPb.setProgress(0);
@@ -630,7 +635,7 @@ public class Battle extends Activity implements View.OnClickListener {
 
 	private void resetEnemy() {
 		e1 = new EnemyCharacter("-", 0, CharacterClassChoice.noClass, 0, 0, 0,
-				0, 0);
+				0, 0, R.drawable.ic_launcher);
 		updateDisplay();
 	}
 
