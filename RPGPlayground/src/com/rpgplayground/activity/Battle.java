@@ -38,17 +38,19 @@ import com.rpgplayground.character.tools.EnemySelector;
 
 public class Battle extends Activity implements View.OnClickListener {
 
-	// region Fields
+	// region fields
 	String ver = "0.1.3";
-	String verInfo;
+	String verInfo = "";
+	String e1s = "------";
+	String combatLogString = "";
 	ViewFlipper vf;
 	TabHost th;
 
 	// needed for Dialog
 	final Context context = this;
 
-	Button start, reset, setName, heal, run, rest, meItem, e1Item,
-			selectName, selectHead, selectChest, selectArms, selectLegs;
+	Button start, reset, setName, heal, run, rest, meItem, e1Item, selectName,
+			selectHead, selectChest, selectArms, selectLegs;
 	ImageButton attack, e1Profile, meHeal;
 	TextView e1Name, e1Class, e1Health, e1Energy, e1tv, meName, meClass,
 			meHealth, meEnergy, metv, meXPtext, combatLog, nName, headName,
@@ -58,22 +60,22 @@ public class Battle extends Activity implements View.OnClickListener {
 	ProgressBar e1HPb, e1EPb, meHPb, meEPb;
 
 	BattleHelper bh = new BattleHelper();
+	// TODO List<EnemyCharacter> activeEnemies = new
+	// ArrayList<EnemyCharacter>();
 	EnemyCharacter e1 = new EnemyCharacter();
+	// TODO List<EnemyCharacter> activeAllies = new arrayList<EnemyCharacter>();
+	// TODO convert Character me to PlayerCharacter me
 	Character me = new Character();
+	// TODO need to imbed meXP into PlayerCharacter
 	int meXP = 0;
-	String e1s = "------";
-	String combatLogString = "";
 
-	Boolean firstRun = true;
+	// needed for WorldNews
 	Boolean worldNewsIsVisible = false;
-
 	LinearLayout worldNews;
 
-	// endregion Fields
+	// endregion fields
 
-	/**
-	 * Initialization
-	 */
+	// region initialization
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,12 +84,11 @@ public class Battle extends Activity implements View.OnClickListener {
 		welcomeDialog();
 	}
 
-	// region Initialize
 	private void initialize() {
 		setName = (Button) findViewById(R.id.bSetName);
 		start = (Button) findViewById(R.id.bStart);
 		reset = (Button) findViewById(R.id.bReset);
-		
+
 		attack = (ImageButton) findViewById(R.id.bAttack);
 		// attack Dialog initialization
 		attack.setOnClickListener(new OnClickListener() {
@@ -150,14 +151,14 @@ public class Battle extends Activity implements View.OnClickListener {
 				dialog.show();
 			}
 		});
-		
+
 		heal = (Button) findViewById(R.id.bHeal);
 		meHeal = (ImageButton) findViewById(R.id.ibMeHeal);
 		run = (Button) findViewById(R.id.bRun);
 		rest = (Button) findViewById(R.id.bRest);
 		e1Item = (Button) findViewById(R.id.bE1Item);
 		meItem = (Button) findViewById(R.id.bMeItem);
-		
+
 		e1Profile = (ImageButton) findViewById(R.id.ibE1Profile);
 
 		selectName = (Button) findViewById(R.id.bSelectName);
@@ -202,7 +203,6 @@ public class Battle extends Activity implements View.OnClickListener {
 		setName.setOnClickListener(this);
 		start.setOnClickListener(this);
 		reset.setOnClickListener(this);
-		// attack.setOnClickListener(this);
 		heal.setOnClickListener(this);
 		meHeal.setOnClickListener(this);
 		run.setOnClickListener(this);
@@ -218,31 +218,10 @@ public class Battle extends Activity implements View.OnClickListener {
 
 		initTabHost();
 		initViewFlipper();
-
-		AbilitySelector as = new AbilitySelector();
-		List<Ability> characterAbilities = new ArrayList<Ability>();
-		characterAbilities.add(as.getAbility(10101));
-		characterAbilities.add(as.getAbility(10201));
-		initializeCharacter(me, CharacterClassChoice.Fighter, 20, 12, 2, 10,
-				characterAbilities);
+		initPlayer();
 
 		startWorldNewsTimer();
 
-	}
-
-	private void startWorldNewsTimer() {
-		Thread timerStart = new Thread() {
-			public void run() {
-				try {
-					sleep(10000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} finally {
-					worldNewsIsVisible = true;
-				}
-			}
-		};
-		timerStart.start();
 	}
 
 	private void initTabHost() {
@@ -277,10 +256,93 @@ public class Battle extends Activity implements View.OnClickListener {
 		vf.setOnClickListener(this);
 	}
 
-	// endregion Initialize
-	/**
-	 * onPause() / onClick()
-	 */
+	private void initPlayer() {
+		AbilitySelector as = new AbilitySelector();
+		List<Ability> characterAbilities = new ArrayList<Ability>();
+		characterAbilities.add(as.getAbility(10101));
+		characterAbilities.add(as.getAbility(10201));
+		initializeCharacter(me, CharacterClassChoice.Fighter, 20, 12, 2, 10,
+				characterAbilities);
+	}
+
+	private void startWorldNewsTimer() {
+		Thread timerStart = new Thread() {
+			public void run() {
+				try {
+					sleep(10000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} finally {
+					worldNewsIsVisible = true;
+				}
+			}
+		};
+		timerStart.start();
+	}
+
+	private void welcomeDialog() {
+		final Dialog whatsNewDialog = new Dialog(context);
+		whatsNewDialog.setContentView(R.layout.whatsnew);
+		whatsNewDialog.setTitle("New since last version...");
+
+		TextView versionNumber = (TextView) whatsNewDialog
+				.findViewById(R.id.tvVersionNumber);
+		TextView versionInfo = (TextView) whatsNewDialog
+				.findViewById(R.id.tvVersionInfo);
+		Button closeDialog = (Button) whatsNewDialog
+				.findViewById(R.id.bWhatsNewClose);
+		closeDialog.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// custom dialog
+				whatsNewDialog.dismiss();
+			}
+		});
+		versionNumber.setText(ver);
+		versionInfo.setText(buildVersionInfo());
+		whatsNewDialog.show();
+	}
+
+	private CharSequence buildVersionInfo() {
+		StringBuilder infoBuilder = new StringBuilder();
+		List<String> allStrings = new ArrayList<String>();
+		allStrings.add(new String("--on Ver. 0.1.3--"));
+		allStrings.add(new String(
+				"[What's New] has been created to explain what is new."));
+		allStrings.add(new String("The Battle Tab has a new look! "
+				+ "Everything isn't perfect, "
+				+ "but it is closer to the final design."));
+		allStrings.add(new String(
+				"Look for Trouble is now inside the Log drawer, "
+						+ "and it must be clicked before attack works."));
+		allStrings
+				.add(new String(
+						"Heal, Rest, and Run are currently missing. That isn't accidental."));
+		allStrings.add(new String(
+				"Reset no longer works, as the functionality is in transition. "
+						+ "Restart the app to play again."));
+		allStrings
+				.add(new String(
+						"Gargoyle and Stone Golem now hit much harder, "
+								+ "making the player take some damage in almost all circumstances."));
+		allStrings
+				.add(new String(
+						"Whirlwind now performs correctly and costs energy, as intended."));
+		allStrings
+				.add(new String(
+						"The World News ticker is not yet working correctly. "
+								+ "However, it does show up. To clear it, click on it."));
+
+		for (String s : allStrings) {
+			infoBuilder.append("    " + s);
+			infoBuilder.append("\n");
+		}
+
+		return infoBuilder.toString();
+	}
+
+	// endregion initialization
+
+	// region onPause/onClick
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -302,10 +364,12 @@ public class Battle extends Activity implements View.OnClickListener {
 						Toast.LENGTH_SHORT).show();
 			}
 			break;
-			
+
 		case R.id.ibMeHeal:
 			if (me.getCurrentEnergy() > 0) {
-				turns("heal");
+				// healing is broken
+				// turns("heal");
+				makeToast("Healing is Currently Disabled (Broken).", "short");
 			} else {
 				Toast.makeText(getApplicationContext(), "Out of Energy",
 						Toast.LENGTH_SHORT).show();
@@ -337,7 +401,6 @@ public class Battle extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.bReset:
-			firstRun = true;
 			Toast.makeText(getApplicationContext(), "Currently Disabled",
 					Toast.LENGTH_SHORT).show();
 			break;
@@ -387,6 +450,8 @@ public class Battle extends Activity implements View.OnClickListener {
 		}
 	}
 
+	// endregion onPause/onClick
+
 	// region Game Methods
 	/**
 	 * Game Private Methods
@@ -395,15 +460,6 @@ public class Battle extends Activity implements View.OnClickListener {
 
 		EnemySelector es = new EnemySelector();
 		e1 = es.getNewEnemy();
-
-		if (firstRun) {
-			// set player stats and xp to default
-		} else {
-			// Sets item to enemy
-			// enemy1Item = setItem(true);
-			// e1Item.setText(enemy1Item.getName());
-		}
-		firstRun = false;
 
 		updateDisplay();
 	}
@@ -645,8 +701,6 @@ public class Battle extends Activity implements View.OnClickListener {
 		// timer.start();
 	}
 
-	// endregion Game Methods
-
 	private void addAPlayerAbility(Dialog dialog, OnClickListener ocl,
 			int imageId, int image, int textId, String description,
 			int buttonId, String abilityTitle) {
@@ -661,63 +715,19 @@ public class Battle extends Activity implements View.OnClickListener {
 		newButtonView.setOnClickListener(ocl);
 	}
 
-	private CharSequence buildVersionInfo() {
-		StringBuilder infoBuilder = new StringBuilder();
-		List<String> allStrings = new ArrayList<String>();
-		allStrings.add(new String("--on Ver. 0.1.3--"));
-		allStrings.add(new String(
-				"[What's New] has been created to explain what is new."));
-		allStrings.add(new String("The Battle Tab has a new look! "
-				+ "Everything isn't perfect, "
-				+ "but it is closer to the final design."));
-		allStrings.add(new String(
-				"Look for Trouble is now inside the Log drawer, "
-						+ "and it must be clicked before attack works."));
-		allStrings
-				.add(new String(
-						"Heal, Rest, and Run are currently missing. That isn't accidental."));
-		allStrings.add(new String(
-				"Reset no longer works, as the functionality is in transition. "
-						+ "Restart the app to play again."));
-		allStrings
-				.add(new String(
-						"Gargoyle and Stone Golem now hit much harder, "
-								+ "making the player take some damage in almost all circumstances."));
-		allStrings
-				.add(new String(
-						"Whirlwind now performs correctly and costs energy, as intended."));
-		allStrings
-				.add(new String(
-						"The World News ticker is not yet working correctly. "
-								+ "However, it does show up. To clear it, click on it."));
+	// endregion Game Methods
 
-		for (String s : allStrings) {
-			infoBuilder.append("    " + s);
-			infoBuilder.append("\n");
+	// region Shortcuts
+
+	private void makeToast(String s, String duration) {
+		int d = Toast.LENGTH_SHORT;
+		if (duration == "long") {
+			d = Toast.LENGTH_LONG;
+		} else if (duration == "short") {
+			d = Toast.LENGTH_SHORT;
 		}
-
-		return infoBuilder.toString();
+		Toast.makeText(getApplicationContext(), s, d).show();
 	}
 
-	private void welcomeDialog() {
-		final Dialog whatsNewDialog = new Dialog(context);
-		whatsNewDialog.setContentView(R.layout.whatsnew);
-		whatsNewDialog.setTitle("New since last version...");
-	
-		TextView versionNumber = (TextView) whatsNewDialog
-				.findViewById(R.id.tvVersionNumber);
-		TextView versionInfo = (TextView) whatsNewDialog
-				.findViewById(R.id.tvVersionInfo);
-		Button closeDialog = (Button) whatsNewDialog
-				.findViewById(R.id.bWhatsNewClose);
-		closeDialog.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// custom dialog
-				whatsNewDialog.dismiss();
-			}
-		});
-		versionNumber.setText(ver);
-		versionInfo.setText(buildVersionInfo());
-		whatsNewDialog.show();
-	}
+	// endregion Shortcuts
 }

@@ -216,7 +216,7 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:visibility="visible" >
+                            android:visibility="visible" android:imeOptions="actionGo">
 
                             <requestFocus />
                         </EditText>

@@ -164,6 +164,13 @@
                 android:layout_height="40dp"
                 android:background="@null"
                 android:src="@drawable/heal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:textColor="@android:color/darker_gray" 
+                android:text="ABILITY BAR. MORE ABILITIES COMING SOON."/>
         </LinearLayout>
 
         <LinearLayout
