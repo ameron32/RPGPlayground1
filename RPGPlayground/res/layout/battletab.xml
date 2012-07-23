@@ -272,7 +272,7 @@
                             </LinearLayout>
 
                             <ImageButton
-                                android:id="@+id/bAttack"
+                                android:id="@+id/ibAttack"
                                 android:layout_width="54dp"
                                 android:layout_height="54dp"
                                 android:layout_gravity="center"
@@ -283,7 +283,7 @@
 
                     <include
                         android:id="@+id/lTmpEnemy"
-                        layout="@layout/tmp" />
+                        layout="@layout/enemylayout" />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

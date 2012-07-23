@@ -1,5 +1,4 @@
 package com.rpgplayground.activity;
-// test
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,7 @@ import com.rpgplayground.character.item.tools.ItemChooser;
 import com.rpgplayground.character.item.tools.ItemChooser.ChooserOption;
 import com.rpgplayground.character.tools.BattleHelper;
 import com.rpgplayground.character.tools.EnemySelector;
+import com.rpgplayground.resourcetools.LayoutManager;
 
 public class Battle extends Activity implements View.OnClickListener {
 
@@ -49,6 +49,7 @@ public class Battle extends Activity implements View.OnClickListener {
 
 	// needed for Dialog
 	final Context context = this;
+	LayoutManager lm;
 
 	Button start, reset, setName, heal, run, rest, meItem, e1Item, selectName,
 			selectHead, selectChest, selectArms, selectLegs;
@@ -61,8 +62,9 @@ public class Battle extends Activity implements View.OnClickListener {
 	ProgressBar e1HPb, e1EPb, meHPb, meEPb;
 
 	BattleHelper bh = new BattleHelper();
-	// TODO List<EnemyCharacter> activeEnemies = new
-	// ArrayList<EnemyCharacter>();
+	// fully implement allEnemies
+	List<EnemyCharacter> allEnemies = new ArrayList<EnemyCharacter>();
+	// TODO depreciate e1
 	EnemyCharacter e1 = new EnemyCharacter();
 	// TODO List<EnemyCharacter> activeAllies = new arrayList<EnemyCharacter>();
 	// TODO convert Character me to PlayerCharacter me
@@ -86,11 +88,13 @@ public class Battle extends Activity implements View.OnClickListener {
 	}
 
 	private void initialize() {
+		lm = new LayoutManager(context, R.layout.enemylayout);
+		
 		setName = (Button) findViewById(R.id.bSetName);
 		start = (Button) findViewById(R.id.bStart);
 		reset = (Button) findViewById(R.id.bReset);
 
-		attack = (ImageButton) findViewById(R.id.bAttack);
+		attack = (ImageButton) findViewById(R.id.ibAttack);
 		// attack Dialog initialization
 		attack.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
@@ -356,7 +360,7 @@ public class Battle extends Activity implements View.OnClickListener {
 			startround();
 			break;
 
-		// R.id.bAttack does not use the same onClickListener
+		// R.id.ibAttack does not use the same onClickListener
 		case R.id.bHeal:
 			if (me.getCurrentEnergy() > 0) {
 				turns("heal");
@@ -460,7 +464,9 @@ public class Battle extends Activity implements View.OnClickListener {
 	private void startround() {
 
 		EnemySelector es = new EnemySelector();
+		// TODO depreciate e1
 		e1 = es.getNewEnemy();
+		allEnemies.add(es.getNewEnemy());
 
 		updateDisplay();
 	}
@@ -680,6 +686,8 @@ public class Battle extends Activity implements View.OnClickListener {
 	}
 
 	private void resetEnemy() {
+		// TODO depreciate e1
+		allEnemies.remove(e1);
 		e1 = new EnemyCharacter("-", 0, CharacterClassChoice.noClass, 0, 0, 0,
 				0, 0, R.drawable.ic_launcher);
 		updateDisplay();
