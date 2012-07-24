@@ -2,6 +2,7 @@ package com.rpgplayground.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -51,24 +52,26 @@ public class Battle extends Activity implements OnClickListener {
 
 	// needed for Dialog
 	final Context context = this;
-//	LayoutManager lm;
+	// LayoutManager lm;
 
 	Button start, reset, setName, heal, run, rest, meItem, e1Item, selectName,
 			selectHead, selectChest, selectArms, selectLegs;
-	
+
 	// region TESTa
 	// new instance of enemy TEST
 	List<EnemyInterface> enemyInterfaces = new ArrayList<EnemyInterface>();
-//	List<Button> allEnemyIncludeButtons = new ArrayList<Button>();
-//	List<ImageButton> allEnemyIncludeImageButtons = new ArrayList<ImageButton>();
-//	List<TextView> allEnemyIncludeTextViews = new ArrayList<TextView>();
-//	List<ProgressBar> allEnemyIncludeProgressBars = new ArrayList<ProgressBar>();
+	// List<Button> allEnemyIncludeButtons = new ArrayList<Button>();
+	// List<ImageButton> allEnemyIncludeImageButtons = new
+	// ArrayList<ImageButton>();
+	// List<TextView> allEnemyIncludeTextViews = new ArrayList<TextView>();
+	// List<ProgressBar> allEnemyIncludeProgressBars = new
+	// ArrayList<ProgressBar>();
 	LinearLayout moreEnemies;
 	// View genericEnemyView;
 	// endregion TESTa
-	
+
 	ImageButton attack, e1Profile, meHeal;
-	TextView e1Name, e1Class, e1Health, e1Energy, e1tv, meName, meClass,
+	TextView e1Name, e1Class, e1Health, e1Energy, eTV, meName, meClass,
 			meHealth, meEnergy, metv, meXPtext, combatLog, nName, headName,
 			headArmor, headBoost, headGValue, chestName, chestArmor,
 			chestBoost, chestGValue, worldNewsText;
@@ -102,73 +105,52 @@ public class Battle extends Activity implements OnClickListener {
 	private void initialize() {
 		// lm = new LayoutManager(context, R.layout.enemylayout);
 		moreEnemies = (LinearLayout) findViewById(R.id.llMoreEnemies);
-		
+
 		setName = (Button) findViewById(R.id.bSetName);
 		start = (Button) findViewById(R.id.bStart);
 		reset = (Button) findViewById(R.id.bReset);
 
-		attack = (ImageButton) findViewById(R.id.ibAttack);
+		// attack = (ImageButton) findViewById(R.id.ibAttack);
 		// attack Dialog initialization
-		attack.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// custom dialog
-				final Dialog dialog = new Dialog(context);
-				dialog.setContentView(R.layout.attack_dialog);
-				dialog.setTitle("Choose Your Action...");
-
-				OnClickListener ocl = new OnClickListener() {
-					public void onClick(View v) {
-						switch (v.getId()) {
-						case R.id.ad1button:
-							turns("attack");
-							break;
-						case R.id.ad2button:
-							turns("whirlwind");
-							break;
-						}
-
-						dialog.dismiss();
-					}
-				};
-
-				// set the custom dialog components - text, image and button
-				addAPlayerAbility(dialog, ocl, R.id.ad1image,
-						R.drawable.ic_launcher, R.id.ad1text,
-						"Main and OffHand or TwoHand Attack", R.id.ad1button,
-						"Primary Attack");
-				addAPlayerAbility(dialog, ocl, R.id.ad2image,
-						R.drawable.ic_launcher, R.id.ad2text,
-						"Attacks all targets for 75% damage", R.id.ad2button,
-						"Whirlwind");
-				// ImageView dImage1 = (ImageView) dialog
-				// .findViewById(R.id.ad1image);
-				// dImage1.setImageResource(R.drawable.ic_launcher);
-				// TextView dText1 = (TextView)
-				// dialog.findViewById(R.id.ad1text);
-				// dText1.setText("Main and OffHand or TwoHand Attack");
-				//
-				// Button dButton1 = (Button)
-				// dialog.findViewById(R.id.ad1button);
-				// dButton1.setText("Primary Attack");
-				// // if button is clicked, close the custom dialog
-				// dButton1.setOnClickListener(ocl);
-
-				// ImageView dImage2 = (ImageView) dialog
-				// .findViewById(R.id.ad2image);
-				// dImage2.setImageResource(R.drawable.ic_launcher);
-				// TextView dText2 = (TextView)
-				// dialog.findViewById(R.id.ad2text);
-				// dText2.setText("Attacks all targets for 75% damage");
-				//
-				// Button dButton2 = (Button)
-				// dialog.findViewById(R.id.ad2button);
-				// dButton2.setText("Whirlwind");
-				// // if button is clicked, close the custom dialog
-				// dButton2.setOnClickListener(ocl);
-
-				dialog.show();
-			}
-		});
+		/*
+		 * attack.setOnClickListener(new OnClickListener() { public void
+		 * onClick(View v) { // custom dialog final Dialog dialog = new
+		 * Dialog(context); dialog.setContentView(R.layout.attack_dialog);
+		 * dialog.setTitle("Choose Your Action...");
+		 * 
+		 * OnClickListener ocl = new OnClickListener() { public void
+		 * onClick(View v) { switch (v.getId()) { case R.id.ad1button:
+		 * turns("attack"); break; case R.id.ad2button: turns("whirlwind");
+		 * break; }
+		 * 
+		 * dialog.dismiss(); } };
+		 * 
+		 * // set the custom dialog components - text, image and button
+		 * addAPlayerAbility(dialog, ocl, R.id.ad1image, R.drawable.ic_launcher,
+		 * R.id.ad1text, "Main and OffHand or TwoHand Attack", R.id.ad1button,
+		 * "Primary Attack"); addAPlayerAbility(dialog, ocl, R.id.ad2image,
+		 * R.drawable.ic_launcher, R.id.ad2text,
+		 * "Attacks all targets for 75% damage", R.id.ad2button, "Whirlwind");
+		 * // ImageView dImage1 = (ImageView) dialog //
+		 * .findViewById(R.id.ad1image); //
+		 * dImage1.setImageResource(R.drawable.ic_launcher); // TextView dText1
+		 * = (TextView) // dialog.findViewById(R.id.ad1text); //
+		 * dText1.setText("Main and OffHand or TwoHand Attack"); // // Button
+		 * dButton1 = (Button) // dialog.findViewById(R.id.ad1button); //
+		 * dButton1.setText("Primary Attack"); // // if button is clicked, close
+		 * the custom dialog // dButton1.setOnClickListener(ocl);
+		 * 
+		 * // ImageView dImage2 = (ImageView) dialog //
+		 * .findViewById(R.id.ad2image); //
+		 * dImage2.setImageResource(R.drawable.ic_launcher); // TextView dText2
+		 * = (TextView) // dialog.findViewById(R.id.ad2text); //
+		 * dText2.setText("Attacks all targets for 75% damage"); // // Button
+		 * dButton2 = (Button) // dialog.findViewById(R.id.ad2button); //
+		 * dButton2.setText("Whirlwind"); // // if button is clicked, close the
+		 * custom dialog // dButton2.setOnClickListener(ocl);
+		 * 
+		 * dialog.show(); } });
+		 */
 
 		heal = (Button) findViewById(R.id.bHeal);
 		meHeal = (ImageButton) findViewById(R.id.ibMeHeal);
@@ -177,7 +159,7 @@ public class Battle extends Activity implements OnClickListener {
 		e1Item = (Button) findViewById(R.id.bE1Item);
 		meItem = (Button) findViewById(R.id.bMeItem);
 
-		e1Profile = (ImageButton) findViewById(R.id.ibE1Profile);
+		// e1Profile = (ImageButton) findViewById(R.id.ibE1Profile);
 
 		selectName = (Button) findViewById(R.id.bSelectName);
 		selectHead = (Button) findViewById(R.id.bSelectHead);
@@ -185,16 +167,16 @@ public class Battle extends Activity implements OnClickListener {
 		selectArms = (Button) findViewById(R.id.bSelectArms);
 		selectLegs = (Button) findViewById(R.id.bSelectLegs);
 
-		e1Name = (TextView) findViewById(R.id.tvE1Name);
-		e1Class = (TextView) findViewById(R.id.tvE1Class);
-		e1Health = (TextView) findViewById(R.id.tvE1Health);
-		e1Energy = (TextView) findViewById(R.id.tvE1Energy);
+		// e1Name = (TextView) findViewById(R.id.tvE1Name);
+		// e1Class = (TextView) findViewById(R.id.tvE1Class);
+		// e1Health = (TextView) findViewById(R.id.tvE1Health);
+		// e1Energy = (TextView) findViewById(R.id.tvE1Energy);
 		meName = (TextView) findViewById(R.id.tvMeName);
 		meClass = (TextView) findViewById(R.id.tvMeClass);
 		meHealth = (TextView) findViewById(R.id.tvMeHealth);
 		meEnergy = (TextView) findViewById(R.id.tvMeEnergy);
 		metv = (TextView) findViewById(R.id.tvMeString);
-		e1tv = (TextView) findViewById(R.id.tvE1String);
+		eTV = (TextView) findViewById(R.id.tvE1String);
 		meXPtext = (TextView) findViewById(R.id.tvMeXP);
 		combatLog = (TextView) findViewById(R.id.tvCombatLog);
 		nName = (TextView) findViewById(R.id.tvName);
@@ -209,8 +191,8 @@ public class Battle extends Activity implements OnClickListener {
 
 		editName = (EditText) findViewById(R.id.etName);
 
-		e1HPb = (ProgressBar) findViewById(R.id.pbE1Health);
-		e1EPb = (ProgressBar) findViewById(R.id.pbE1Energy);
+		// e1HPb = (ProgressBar) findViewById(R.id.pbE1Health);
+		// e1EPb = (ProgressBar) findViewById(R.id.pbE1Energy);
 		meHPb = (ProgressBar) findViewById(R.id.pbMeHealth);
 		meEPb = (ProgressBar) findViewById(R.id.pbMeEnergy);
 
@@ -233,7 +215,7 @@ public class Battle extends Activity implements OnClickListener {
 		selectChest.setOnClickListener(this);
 		selectArms.setOnClickListener(this);
 		selectLegs.setOnClickListener(this);
-		
+
 		initTabHost();
 		initViewFlipper();
 		initPlayer();
@@ -241,8 +223,6 @@ public class Battle extends Activity implements OnClickListener {
 		startWorldNewsTimer();
 
 	}
-
-
 
 	private void initTabHost() {
 
@@ -378,7 +358,7 @@ public class Battle extends Activity implements OnClickListener {
 		// R.id.ibAttack does not use the same onClickListener
 		case R.id.bHeal:
 			if (me.getCurrentEnergy() > 0) {
-				turns("heal");
+				turns("heal", "me");
 			} else {
 				Toast.makeText(getApplicationContext(), "Out of Energy",
 						Toast.LENGTH_SHORT).show();
@@ -397,11 +377,11 @@ public class Battle extends Activity implements OnClickListener {
 			break;
 
 		case R.id.bRun:
-			turns("run");
+			turns("run", "me");
 			break;
 
 		case R.id.bRest:
-			turns("rest");
+			turns("rest", "me");
 			break;
 
 		case R.id.bSetName:
@@ -431,7 +411,7 @@ public class Battle extends Activity implements OnClickListener {
 			break;
 
 		case R.id.bE1Item:
-			for (EnemyInterface ei : enemyInterfaces) {	
+			for (EnemyInterface ei : enemyInterfaces) {
 				setEquippedItems(ei.getEnemyCharacter());
 			}
 			updateDisplay();
@@ -479,45 +459,20 @@ public class Battle extends Activity implements OnClickListener {
 	 * Game Private Methods
 	 */
 	private void startround() {
-
+		enemyInterfaces.clear();
 		EnemySelector es = new EnemySelector();
 		// TODO depreciate e1
-		EnemyCharacter enemyCharacter1 = es.getNewEnemy();
-		EnemyCharacter enemyCharacter2 = es.getNewEnemy();
-		EnemyCharacter enemyCharacter3 = es.getNewEnemy();
-		
-		enemyInterfaces.add(createEnemyInterface(1, enemyCharacter1));
-		enemyInterfaces.add(createEnemyInterface(2, enemyCharacter2));
-		enemyInterfaces.add(createEnemyInterface(3, enemyCharacter3));
+		Random r = new Random();
+		int numberOfEnemies = r.nextInt(5) + 1;
+		for (int x = 0; x < numberOfEnemies; x++) {
+			EnemyCharacter ec = es.getNewEnemy();
+			enemyInterfaces.add(createEnemyInterface(x, ec));
+		}
 
 		updateDisplay();
 	}
 
 	private void updateDisplay() {
-		// Display enemy stats on-screen
-**		e1Health.setText(enemyCharacter1.getCurrentHealth() + " / " + enemyCharacter1.getMaxHealth());
-**		e1Energy.setText(enemyCharacter1.getCurrentEnergy() + " / " + enemyCharacter1.getMaxEnergy());
-**		e1Name.setText(enemyCharacter1.getName());
-**		e1Class.setText(enemyCharacter1.getCharacterClassChoice().toString());
-**		e1Profile.setImageResource(((EnemyCharacter) enemyCharacter1).getImageResource());
-**		if (enemyCharacter1.getMaxHealth() <= 0) {
-**			e1HPb.setMax(1);
-**			e1HPb.setProgress(0);
-**		} else {
-**			e1HPb.setMax(enemyCharacter1.getMaxHealth());
-**			e1HPb.setProgress(enemyCharacter1.getCurrentHealth());
-**		}
-**		if (enemyCharacter1.getMaxEnergy() <= 0) {
-**			e1EPb.setMax(1);
-**			e1EPb.setProgress(0);
-**		} else {
-**			e1EPb.setMax(enemyCharacter1.getMaxEnergy());
-**			e1EPb.setProgress(enemyCharacter1.getCurrentEnergy());
-**		}
-//		lm.loadParent(R.layout.enemylayout);
-//		lm.updateDisplay(e1);
-*-*		e1tv.setText(enemyCharacter1.toString());
-
 		// Display my stats on-screen
 		meHealth.setText(me.getCurrentHealth() + " / " + me.getMaxHealth());
 		meEnergy.setText(me.getCurrentEnergy() + " / " + me.getMaxEnergy());
@@ -540,11 +495,66 @@ public class Battle extends Activity implements OnClickListener {
 		metv.setText(me.toString());
 		meXPtext.setText("XP: " + Integer.toString(meXP));
 
+		// Display enemy stats on-screen
+		// e1Health.setText(enemyCharacter1.getCurrentHealth() + " / " +
+		// enemyCharacter1.getMaxHealth());
+		// e1Energy.setText(enemyCharacter1.getCurrentEnergy() + " / " +
+		// enemyCharacter1.getMaxEnergy());
+		// e1Name.setText(enemyCharacter1.getName());
+		// e1Class.setText(enemyCharacter1.getCharacterClassChoice().toString());
+		// e1Profile.setImageResource(((EnemyCharacter)
+		// enemyCharacter1).getImageResource());
+		// if (enemyCharacter1.getMaxHealth() <= 0) {
+		// e1HPb.setMax(1);
+		// e1HPb.setProgress(0);
+		// } else {
+		// e1HPb.setMax(enemyCharacter1.getMaxHealth());
+		// e1HPb.setProgress(enemyCharacter1.getCurrentHealth());
+		// }
+		// if (enemyCharacter1.getMaxEnergy() <= 0) {
+		// e1EPb.setMax(1);
+		// e1EPb.setProgress(0);
+		// } else {
+		// e1EPb.setMax(enemyCharacter1.getMaxEnergy());
+		// e1EPb.setProgress(enemyCharacter1.getCurrentEnergy());
+		// }
+		// lm.loadParent(R.layout.enemylayout);
+		// lm.updateDisplay(e1);
+
+		String eTVString = "";
 		for (EnemyInterface ei : enemyInterfaces) {
-			ei.getEnemyLayout().geteHealth().setText(ei.getEnemyCharacter().getCurrentHealth() + " / " + ei.getEnemyCharacter().getMaxHealth());
-			ei.getEnemyLayout().geteName().setText(ei.getEnemyCharacter().getName());
+			eTVString = ei.getEnemyCharacter().toString() + "\n";
 		}
-		
+		eTV.setText(eTVString);
+
+		for (EnemyInterface ei : enemyInterfaces) {
+			LayoutPackage lp = ei.getEnemyLayout();
+			EnemyCharacter ec = ei.getEnemyCharacter();
+
+			lp.geteHealth().setText(
+					ec.getCurrentHealth() + " / " + ec.getMaxHealth());
+			lp.geteEnergy().setText(
+					ec.getCurrentEnergy() + " / " + ec.getMaxEnergy());
+			lp.geteName().setText(ec.getName());
+			lp.geteClass().setText(ec.getCharacterClassChoice().toString());
+			lp.geteProfile().setImageResource(ec.getImageResource());
+			if (ec.getMaxHealth() <= 0) {
+				lp.geteHealthBar().setMax(1);
+				lp.geteHealthBar().setProgress(0);
+			} else {
+				lp.geteHealthBar().setMax(ec.getMaxEnergy());
+				lp.geteHealthBar().setProgress(ec.getCurrentEnergy());
+			}
+			if (ec.getMaxEnergy() <= 0) {
+				lp.geteEnergyBar().setMax(1);
+				lp.geteEnergyBar().setProgress(0);
+			} else {
+				lp.geteEnergyBar().setMax(ec.getMaxEnergy());
+				lp.geteEnergyBar().setProgress(ec.getCurrentEnergy());
+			}
+
+		}
+
 	}
 
 	private CharSequence buildCombatLog(Character c, int abilityId, Boolean last) {
@@ -556,17 +566,21 @@ public class Battle extends Activity implements OnClickListener {
 
 			sb.append(bh.getAbilityTotalDamage(abilityId) + " - "
 					+ bh.getDefenderTotalResistance() + " = "
-					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId) + " damage2enemy");
+					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId)
+					+ " damage2enemy");
 
 			// old process
 			// sb.append(meTAttack + " - " + e1TDefend + " = " + meSuccessD
 			// + " damage2enemy");
 			sb.append("\n");
-		} else if (c == enemyCharacter1) {
+		}
+
+		if (c == enemyCharacter1) {
 
 			sb.append(bh.getAbilityTotalDamage(abilityId) + " - "
 					+ bh.getDefenderTotalResistance() + " = "
-					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId) + " damage2you");
+					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId)
+					+ " damage2you");
 
 			// old process
 			// sb.append(e1TAttack + " - " + meTDefend + " = " + e1SuccessD
@@ -651,7 +665,7 @@ public class Battle extends Activity implements OnClickListener {
 		return bundleOfItems;
 	}
 
-	private void turns(String playerCommand) {
+	private void turns(String playerCommand, String target) {
 
 		/**
 		 * // "heal" chosen if (playerCommand == "heal") {
@@ -664,13 +678,15 @@ public class Battle extends Activity implements OnClickListener {
 			me.setCurrentEnergy(me.getCurrentEnergy() + 5);
 		}
 
-**		if (enemyCharacter1.getCurrentHealth() > 0 && me.getCurrentHealth() > 0) {
+		if (me.getCurrentHealth() > 0) {
 
 			// Player turn
 			// "run" chosen
 			if (playerCommand == "run") {
-				enemyTurn();
-				resetEnemy();
+				for (EnemyInterface ei : enemyInterfaces) {
+					enemyTurn(ei);
+					resetEnemy(ei);
+				}
 				Toast.makeText(getApplicationContext(),
 						"You are hit in the back as you flee.",
 						Toast.LENGTH_SHORT).show();
@@ -678,33 +694,39 @@ public class Battle extends Activity implements OnClickListener {
 
 			// "attack" chosen
 			if (playerCommand == "attack") {
-**				enemyCharacter1.takeDamage(bh.useAbilityAttack(me, enemyCharacter1, 10101));
+				enemyCharacter1.takeDamage(bh.useAbilityAttack(me,
+						enemyCharacter1, 10101));
 				combatLog.setText(buildCombatLog(me, 10101, false));
 			}
 			// "whirlwind" chosen (remove later)
 			if (playerCommand == "whirlwind") {
-**				enemyCharacter1.takeDamage(bh.useAbilityAttack(me, enemyCharacter1, 10201));
+				for (EnemyInterface ei : enemyInterfaces) {
+					EnemyCharacter ec = ei.getEnemyCharacter();
+					ec.takeDamage(bh.useAbilityAttack(me, ec, 10201));
+				}
 				me.spendEnergy(3);
 				combatLog.setText(buildCombatLog(me, 10201, false));
 			}
 
-			enemyTurn();
+			for (EnemyInterface ei : enemyInterfaces) {
+				enemyTurn(ei);
+			}
 		}
 
 		updateDisplay();
 	}
 
-	private void enemyTurn() {
-		// Enemy1 turn
-
-**		if (enemyCharacter1.getCurrentHealth() > 0) {
-**			me.takeDamage(bh.useAbilityAttack(enemyCharacter1, me, 10101));
-**			combatLog.setText(buildCombatLog(enemyCharacter1, 10101, true));
+	private void enemyTurn(EnemyInterface ei) {
+		// Enemy turn
+		EnemyCharacter ec = ei.getEnemyCharacter();
+		if (ec.getCurrentHealth() > 0) {
+			me.takeDamage(bh.useAbilityAttack(ec, me, 10101));
+			combatLog.setText(buildCombatLog(ec, 10101, true));
 		} else {
 			Toast.makeText(getApplicationContext(), "You win",
 					Toast.LENGTH_SHORT).show();
-**			meXP += enemyCharacter1.getXPGain();
-			resetEnemy();
+			meXP += ec.getXPGain();
+			resetEnemy(ei);
 		}
 		if (me.getCurrentHealth() <= 0) {
 			Toast.makeText(getApplicationContext(), "You lose",
@@ -714,10 +736,9 @@ public class Battle extends Activity implements OnClickListener {
 		}
 	}
 
-	private void resetEnemy() {
-		// TODO depreciate e1
-**		enemyCharacter1 = new EnemyCharacter("-", 0, CharacterClassChoice.noClass, 0, 0, 0,
-				0, 0, R.drawable.ic_launcher);
+	private void resetEnemy(EnemyInterface ei) {
+		enemyInterfaces.remove(ei);
+
 		updateDisplay();
 	}
 
@@ -738,19 +759,19 @@ public class Battle extends Activity implements OnClickListener {
 		// timer.start();
 	}
 
-	private void addAPlayerAbility(Dialog dialog, OnClickListener ocl,
-			int imageId, int image, int textId, String description,
-			int buttonId, String abilityTitle) {
-		ImageView newImageView = (ImageView) dialog.findViewById(imageId);
-		newImageView.setImageResource(image);
-		TextView newTextView = (TextView) dialog.findViewById(textId);
-		newTextView.setText(description);
-
-		Button newButtonView = (Button) dialog.findViewById(buttonId);
-		newButtonView.setText(abilityTitle);
-		// if button is clicked, close the custom dialog
-		newButtonView.setOnClickListener(ocl);
-	}
+//	private void addAPlayerAbility(Dialog dialog, OnClickListener ocl,
+//			int imageId, int image, int textId, String description,
+//			int buttonId, String abilityTitle) {
+//		ImageView newImageView = (ImageView) dialog.findViewById(imageId);
+//		newImageView.setImageResource(image);
+//		TextView newTextView = (TextView) dialog.findViewById(textId);
+//		newTextView.setText(description);
+//
+//		Button newButtonView = (Button) dialog.findViewById(buttonId);
+//		newButtonView.setText(abilityTitle);
+//		// if button is clicked, close the custom dialog
+//		newButtonView.setOnClickListener(ocl);
+//	}
 
 	// endregion Game Methods
 
@@ -768,37 +789,43 @@ public class Battle extends Activity implements OnClickListener {
 
 	// endregion Shortcuts
 
-	private EnemyInterface createEnemyInterface(int enemyNumber, EnemyCharacter enemyCharacter) {
+	private EnemyInterface createEnemyInterface(int enemyNumber,
+			EnemyCharacter enemyCharacter) {
 		// region TESTb
 		// new instance of enemy TEST
-				
+
 		ViewGroup vg = (ViewGroup) findViewById(R.layout.enemylayout);
-		View enemyLayout = LayoutInflater.from(context).inflate(R.layout.enemylayout, vg, false);
+		View enemyLayout = LayoutInflater.from(context).inflate(
+				R.layout.enemylayout, vg, false);
 		TextView eHealth = (TextView) enemyLayout.findViewById(R.id.tvEHealth);
 		TextView eEnergy = (TextView) enemyLayout.findViewById(R.id.tvEEnergy);
 		TextView eName = (TextView) enemyLayout.findViewById(R.id.tvEName);
 		TextView eClass = (TextView) enemyLayout.findViewById(R.id.tvEClass);
-		ProgressBar eHealthBar = (ProgressBar) enemyLayout.findViewById(R.id.pbEHealth);
-		ProgressBar eEnergyBar = (ProgressBar) enemyLayout.findViewById(R.id.pbEEnergy);
-		ImageButton cAttack = (ImageButton) enemyLayout.findViewById(R.id.ibAttack);
-		ImageButton eProfile = (ImageButton) enemyLayout.findViewById(R.id.ibEProfile);
-		
-		
-		LayoutPackage enemyPackage = new LayoutPackage(enemyNumber, 
-				eHealth, eEnergy, eName, eClass, eHealthBar, 
-				eEnergyBar, cAttack, eProfile);
-		EnemyInterface enemyInterface = new EnemyInterface(enemyCharacter, enemyPackage);
+		ProgressBar eHealthBar = (ProgressBar) enemyLayout
+				.findViewById(R.id.pbEHealth);
+		ProgressBar eEnergyBar = (ProgressBar) enemyLayout
+				.findViewById(R.id.pbEEnergy);
+		ImageButton cAttack = (ImageButton) enemyLayout
+				.findViewById(R.id.ibAttack);
+		ImageButton eProfile = (ImageButton) enemyLayout
+				.findViewById(R.id.ibEProfile);
+
+		LayoutPackage enemyPackage = new LayoutPackage(enemyNumber, eHealth,
+				eEnergy, eName, eClass, eHealthBar, eEnergyBar, cAttack,
+				eProfile);
+		EnemyInterface enemyInterface = new EnemyInterface(enemyCharacter,
+				enemyPackage);
 		moreEnemies.addView(enemyLayout);
 		return enemyInterface;
 		// endregion TESTb
 	}
 
 	class EnemyInterface {
-		
+
 		EnemyCharacter enemyCharacter;
 		LayoutPackage enemyLayout;
-		
-		public EnemyInterface (EnemyCharacter ec, LayoutPackage lp) {
+
+		public EnemyInterface(EnemyCharacter ec, LayoutPackage lp) {
 			enemyCharacter = ec;
 			enemyLayout = lp;
 		}
@@ -818,10 +845,10 @@ public class Battle extends Activity implements OnClickListener {
 		public void setEnemyLayout(LayoutPackage enemyLayout) {
 			this.enemyLayout = enemyLayout;
 		}
-		
+
 	}
-		
-	class LayoutPackage {
+
+	class LayoutPackage implements OnClickListener {
 
 		int id;
 		TextView eHealth;
@@ -832,15 +859,11 @@ public class Battle extends Activity implements OnClickListener {
 		ProgressBar eEnergyBar;
 		ImageButton cAttack;
 		ImageButton eProfile;
-		
-		public LayoutPackage (int packageId, TextView eHealth,
-		TextView eEnergy,
-		TextView eName,
-		TextView eClass,
-		ProgressBar eHealthBar,
-		ProgressBar eEnergyBar,
-		ImageButton cAttack,
-		ImageButton eProfile) {
+
+		public LayoutPackage(int packageId, TextView eHealth, TextView eEnergy,
+				TextView eName, TextView eClass, ProgressBar eHealthBar,
+				ProgressBar eEnergyBar, ImageButton cAttack,
+				ImageButton eProfile) {
 			this.eHealth = eHealth;
 			this.eEnergy = eEnergy;
 			this.eName = eName;
@@ -849,8 +872,25 @@ public class Battle extends Activity implements OnClickListener {
 			this.eEnergyBar = eEnergyBar;
 			this.cAttack = cAttack;
 			this.eProfile = eProfile;
+			this.cAttack.setOnClickListener(this);
+			this.eProfile.setOnClickListener(this);
 		}
-		
+
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.ibAttack:
+				Toast.makeText(getApplicationContext(),
+						"click attack: " + eName.getText(), Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.ibEProfile:
+				Toast.makeText(getApplicationContext(),
+						"click profile: " + eName.getText(), Toast.LENGTH_SHORT)
+						.show();
+				break;
+			}
+		}
+
 		// region getterssetters
 		public int getId() {
 			return id;
@@ -924,7 +964,7 @@ public class Battle extends Activity implements OnClickListener {
 			this.eProfile = eProfile;
 		}
 		// endregion getterssetters
-		
+
 	}
 
 }
