@@ -284,6 +284,13 @@
                     <include
                         android:id="@+id/lTmpEnemy"
                         layout="@layout/enemylayout" />
+                    <LinearLayout
+                        android:id="@+id/llMoreEnemies"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        
+                    </LinearLayout>
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

@@ -7,8 +7,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +39,7 @@ import com.rpgplayground.character.tools.BattleHelper;
 import com.rpgplayground.character.tools.EnemySelector;
 import com.rpgplayground.resourcetools.LayoutManager;
 
-public class Battle extends Activity implements View.OnClickListener {
+public class Battle extends Activity implements OnClickListener {
 
 	// region fields
 	String ver = "0.1.3";
@@ -49,10 +51,22 @@ public class Battle extends Activity implements View.OnClickListener {
 
 	// needed for Dialog
 	final Context context = this;
-	LayoutManager lm;
+//	LayoutManager lm;
 
 	Button start, reset, setName, heal, run, rest, meItem, e1Item, selectName,
 			selectHead, selectChest, selectArms, selectLegs;
+	
+	// region TESTa
+	// new instance of enemy TEST
+	List<EnemyInterface> enemyInterfaces = new ArrayList<EnemyInterface>();
+//	List<Button> allEnemyIncludeButtons = new ArrayList<Button>();
+//	List<ImageButton> allEnemyIncludeImageButtons = new ArrayList<ImageButton>();
+//	List<TextView> allEnemyIncludeTextViews = new ArrayList<TextView>();
+//	List<ProgressBar> allEnemyIncludeProgressBars = new ArrayList<ProgressBar>();
+	LinearLayout moreEnemies;
+	// View genericEnemyView;
+	// endregion TESTa
+	
 	ImageButton attack, e1Profile, meHeal;
 	TextView e1Name, e1Class, e1Health, e1Energy, e1tv, meName, meClass,
 			meHealth, meEnergy, metv, meXPtext, combatLog, nName, headName,
@@ -62,10 +76,8 @@ public class Battle extends Activity implements View.OnClickListener {
 	ProgressBar e1HPb, e1EPb, meHPb, meEPb;
 
 	BattleHelper bh = new BattleHelper();
-	// fully implement allEnemies
-	List<EnemyCharacter> allEnemies = new ArrayList<EnemyCharacter>();
 	// TODO depreciate e1
-	EnemyCharacter e1 = new EnemyCharacter();
+	EnemyCharacter enemyCharacter1 = new EnemyCharacter();
 	// TODO List<EnemyCharacter> activeAllies = new arrayList<EnemyCharacter>();
 	// TODO convert Character me to PlayerCharacter me
 	Character me = new Character();
@@ -88,7 +100,8 @@ public class Battle extends Activity implements View.OnClickListener {
 	}
 
 	private void initialize() {
-		lm = new LayoutManager(context, R.layout.enemylayout);
+		// lm = new LayoutManager(context, R.layout.enemylayout);
+		moreEnemies = (LinearLayout) findViewById(R.id.llMoreEnemies);
 		
 		setName = (Button) findViewById(R.id.bSetName);
 		start = (Button) findViewById(R.id.bStart);
@@ -97,7 +110,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		attack = (ImageButton) findViewById(R.id.ibAttack);
 		// attack Dialog initialization
 		attack.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
+			public void onClick(View v) {
 				// custom dialog
 				final Dialog dialog = new Dialog(context);
 				dialog.setContentView(R.layout.attack_dialog);
@@ -220,7 +233,7 @@ public class Battle extends Activity implements View.OnClickListener {
 		selectChest.setOnClickListener(this);
 		selectArms.setOnClickListener(this);
 		selectLegs.setOnClickListener(this);
-
+		
 		initTabHost();
 		initViewFlipper();
 		initPlayer();
@@ -228,6 +241,8 @@ public class Battle extends Activity implements View.OnClickListener {
 		startWorldNewsTimer();
 
 	}
+
+
 
 	private void initTabHost() {
 
@@ -416,7 +431,9 @@ public class Battle extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.bE1Item:
-			setEquippedItems(e1);
+			for (EnemyInterface ei : enemyInterfaces) {	
+				setEquippedItems(ei.getEnemyCharacter());
+			}
 			updateDisplay();
 			break;
 
@@ -465,34 +482,41 @@ public class Battle extends Activity implements View.OnClickListener {
 
 		EnemySelector es = new EnemySelector();
 		// TODO depreciate e1
-		e1 = es.getNewEnemy();
-		allEnemies.add(es.getNewEnemy());
+		EnemyCharacter enemyCharacter1 = es.getNewEnemy();
+		EnemyCharacter enemyCharacter2 = es.getNewEnemy();
+		EnemyCharacter enemyCharacter3 = es.getNewEnemy();
+		
+		enemyInterfaces.add(createEnemyInterface(1, enemyCharacter1));
+		enemyInterfaces.add(createEnemyInterface(2, enemyCharacter2));
+		enemyInterfaces.add(createEnemyInterface(3, enemyCharacter3));
 
 		updateDisplay();
 	}
 
 	private void updateDisplay() {
 		// Display enemy stats on-screen
-		e1Health.setText(e1.getCurrentHealth() + " / " + e1.getMaxHealth());
-		e1Energy.setText(e1.getCurrentEnergy() + " / " + e1.getMaxEnergy());
-		e1Name.setText(e1.getName());
-		e1Class.setText(e1.getCharacterClassChoice().toString());
-		e1Profile.setImageResource(((EnemyCharacter) e1).getImageResource());
-		if (e1.getMaxHealth() <= 0) {
-			e1HPb.setMax(1);
-			e1HPb.setProgress(0);
-		} else {
-			e1HPb.setMax(e1.getMaxHealth());
-			e1HPb.setProgress(e1.getCurrentHealth());
-		}
-		if (e1.getMaxEnergy() <= 0) {
-			e1EPb.setMax(1);
-			e1EPb.setProgress(0);
-		} else {
-			e1EPb.setMax(e1.getMaxEnergy());
-			e1EPb.setProgress(e1.getCurrentEnergy());
-		}
-		e1tv.setText(e1.toString());
+**		e1Health.setText(enemyCharacter1.getCurrentHealth() + " / " + enemyCharacter1.getMaxHealth());
+**		e1Energy.setText(enemyCharacter1.getCurrentEnergy() + " / " + enemyCharacter1.getMaxEnergy());
+**		e1Name.setText(enemyCharacter1.getName());
+**		e1Class.setText(enemyCharacter1.getCharacterClassChoice().toString());
+**		e1Profile.setImageResource(((EnemyCharacter) enemyCharacter1).getImageResource());
+**		if (enemyCharacter1.getMaxHealth() <= 0) {
+**			e1HPb.setMax(1);
+**			e1HPb.setProgress(0);
+**		} else {
+**			e1HPb.setMax(enemyCharacter1.getMaxHealth());
+**			e1HPb.setProgress(enemyCharacter1.getCurrentHealth());
+**		}
+**		if (enemyCharacter1.getMaxEnergy() <= 0) {
+**			e1EPb.setMax(1);
+**			e1EPb.setProgress(0);
+**		} else {
+**			e1EPb.setMax(enemyCharacter1.getMaxEnergy());
+**			e1EPb.setProgress(enemyCharacter1.getCurrentEnergy());
+**		}
+//		lm.loadParent(R.layout.enemylayout);
+//		lm.updateDisplay(e1);
+*-*		e1tv.setText(enemyCharacter1.toString());
 
 		// Display my stats on-screen
 		meHealth.setText(me.getCurrentHealth() + " / " + me.getMaxHealth());
@@ -516,6 +540,11 @@ public class Battle extends Activity implements View.OnClickListener {
 		metv.setText(me.toString());
 		meXPtext.setText("XP: " + Integer.toString(meXP));
 
+		for (EnemyInterface ei : enemyInterfaces) {
+			ei.getEnemyLayout().geteHealth().setText(ei.getEnemyCharacter().getCurrentHealth() + " / " + ei.getEnemyCharacter().getMaxHealth());
+			ei.getEnemyLayout().geteName().setText(ei.getEnemyCharacter().getName());
+		}
+		
 	}
 
 	private CharSequence buildCombatLog(Character c, int abilityId, Boolean last) {
@@ -527,17 +556,17 @@ public class Battle extends Activity implements View.OnClickListener {
 
 			sb.append(bh.getAbilityTotalDamage(abilityId) + " - "
 					+ bh.getDefenderTotalResistance() + " = "
-					+ bh.useAbilityAttack(e1, me, abilityId) + " damage2enemy");
+					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId) + " damage2enemy");
 
 			// old process
 			// sb.append(meTAttack + " - " + e1TDefend + " = " + meSuccessD
 			// + " damage2enemy");
 			sb.append("\n");
-		} else if (c == e1) {
+		} else if (c == enemyCharacter1) {
 
 			sb.append(bh.getAbilityTotalDamage(abilityId) + " - "
 					+ bh.getDefenderTotalResistance() + " = "
-					+ bh.useAbilityAttack(e1, me, abilityId) + " damage2you");
+					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId) + " damage2you");
 
 			// old process
 			// sb.append(e1TAttack + " - " + meTDefend + " = " + e1SuccessD
@@ -635,7 +664,7 @@ public class Battle extends Activity implements View.OnClickListener {
 			me.setCurrentEnergy(me.getCurrentEnergy() + 5);
 		}
 
-		if (e1.getCurrentHealth() > 0 && me.getCurrentHealth() > 0) {
+**		if (enemyCharacter1.getCurrentHealth() > 0 && me.getCurrentHealth() > 0) {
 
 			// Player turn
 			// "run" chosen
@@ -649,12 +678,12 @@ public class Battle extends Activity implements View.OnClickListener {
 
 			// "attack" chosen
 			if (playerCommand == "attack") {
-				e1.takeDamage(bh.useAbilityAttack(me, e1, 10101));
+**				enemyCharacter1.takeDamage(bh.useAbilityAttack(me, enemyCharacter1, 10101));
 				combatLog.setText(buildCombatLog(me, 10101, false));
 			}
 			// "whirlwind" chosen (remove later)
 			if (playerCommand == "whirlwind") {
-				e1.takeDamage(bh.useAbilityAttack(me, e1, 10201));
+**				enemyCharacter1.takeDamage(bh.useAbilityAttack(me, enemyCharacter1, 10201));
 				me.spendEnergy(3);
 				combatLog.setText(buildCombatLog(me, 10201, false));
 			}
@@ -668,13 +697,13 @@ public class Battle extends Activity implements View.OnClickListener {
 	private void enemyTurn() {
 		// Enemy1 turn
 
-		if (e1.getCurrentHealth() > 0) {
-			me.takeDamage(bh.useAbilityAttack(e1, me, 10101));
-			combatLog.setText(buildCombatLog(e1, 10101, true));
+**		if (enemyCharacter1.getCurrentHealth() > 0) {
+**			me.takeDamage(bh.useAbilityAttack(enemyCharacter1, me, 10101));
+**			combatLog.setText(buildCombatLog(enemyCharacter1, 10101, true));
 		} else {
 			Toast.makeText(getApplicationContext(), "You win",
 					Toast.LENGTH_SHORT).show();
-			meXP += e1.getXPGain();
+**			meXP += enemyCharacter1.getXPGain();
 			resetEnemy();
 		}
 		if (me.getCurrentHealth() <= 0) {
@@ -687,8 +716,7 @@ public class Battle extends Activity implements View.OnClickListener {
 
 	private void resetEnemy() {
 		// TODO depreciate e1
-		allEnemies.remove(e1);
-		e1 = new EnemyCharacter("-", 0, CharacterClassChoice.noClass, 0, 0, 0,
+**		enemyCharacter1 = new EnemyCharacter("-", 0, CharacterClassChoice.noClass, 0, 0, 0,
 				0, 0, R.drawable.ic_launcher);
 		updateDisplay();
 	}
@@ -739,4 +767,164 @@ public class Battle extends Activity implements View.OnClickListener {
 	}
 
 	// endregion Shortcuts
+
+	private EnemyInterface createEnemyInterface(int enemyNumber, EnemyCharacter enemyCharacter) {
+		// region TESTb
+		// new instance of enemy TEST
+				
+		ViewGroup vg = (ViewGroup) findViewById(R.layout.enemylayout);
+		View enemyLayout = LayoutInflater.from(context).inflate(R.layout.enemylayout, vg, false);
+		TextView eHealth = (TextView) enemyLayout.findViewById(R.id.tvEHealth);
+		TextView eEnergy = (TextView) enemyLayout.findViewById(R.id.tvEEnergy);
+		TextView eName = (TextView) enemyLayout.findViewById(R.id.tvEName);
+		TextView eClass = (TextView) enemyLayout.findViewById(R.id.tvEClass);
+		ProgressBar eHealthBar = (ProgressBar) enemyLayout.findViewById(R.id.pbEHealth);
+		ProgressBar eEnergyBar = (ProgressBar) enemyLayout.findViewById(R.id.pbEEnergy);
+		ImageButton cAttack = (ImageButton) enemyLayout.findViewById(R.id.ibAttack);
+		ImageButton eProfile = (ImageButton) enemyLayout.findViewById(R.id.ibEProfile);
+		
+		
+		LayoutPackage enemyPackage = new LayoutPackage(enemyNumber, 
+				eHealth, eEnergy, eName, eClass, eHealthBar, 
+				eEnergyBar, cAttack, eProfile);
+		EnemyInterface enemyInterface = new EnemyInterface(enemyCharacter, enemyPackage);
+		moreEnemies.addView(enemyLayout);
+		return enemyInterface;
+		// endregion TESTb
+	}
+
+	class EnemyInterface {
+		
+		EnemyCharacter enemyCharacter;
+		LayoutPackage enemyLayout;
+		
+		public EnemyInterface (EnemyCharacter ec, LayoutPackage lp) {
+			enemyCharacter = ec;
+			enemyLayout = lp;
+		}
+
+		public EnemyCharacter getEnemyCharacter() {
+			return enemyCharacter;
+		}
+
+		public void setEnemyCharacter(EnemyCharacter enemyCharacter) {
+			this.enemyCharacter = enemyCharacter;
+		}
+
+		public LayoutPackage getEnemyLayout() {
+			return enemyLayout;
+		}
+
+		public void setEnemyLayout(LayoutPackage enemyLayout) {
+			this.enemyLayout = enemyLayout;
+		}
+		
+	}
+		
+	class LayoutPackage {
+
+		int id;
+		TextView eHealth;
+		TextView eEnergy;
+		TextView eName;
+		TextView eClass;
+		ProgressBar eHealthBar;
+		ProgressBar eEnergyBar;
+		ImageButton cAttack;
+		ImageButton eProfile;
+		
+		public LayoutPackage (int packageId, TextView eHealth,
+		TextView eEnergy,
+		TextView eName,
+		TextView eClass,
+		ProgressBar eHealthBar,
+		ProgressBar eEnergyBar,
+		ImageButton cAttack,
+		ImageButton eProfile) {
+			this.eHealth = eHealth;
+			this.eEnergy = eEnergy;
+			this.eName = eName;
+			this.eClass = eClass;
+			this.eHealthBar = eHealthBar;
+			this.eEnergyBar = eEnergyBar;
+			this.cAttack = cAttack;
+			this.eProfile = eProfile;
+		}
+		
+		// region getterssetters
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		public TextView geteHealth() {
+			return eHealth;
+		}
+
+		public void seteHealth(TextView eHealth) {
+			this.eHealth = eHealth;
+		}
+
+		public TextView geteEnergy() {
+			return eEnergy;
+		}
+
+		public void seteEnergy(TextView eEnergy) {
+			this.eEnergy = eEnergy;
+		}
+
+		public TextView geteName() {
+			return eName;
+		}
+
+		public void seteName(TextView eName) {
+			this.eName = eName;
+		}
+
+		public TextView geteClass() {
+			return eClass;
+		}
+
+		public void seteClass(TextView eClass) {
+			this.eClass = eClass;
+		}
+
+		public ProgressBar geteHealthBar() {
+			return eHealthBar;
+		}
+
+		public void seteHealthBar(ProgressBar eHealthBar) {
+			this.eHealthBar = eHealthBar;
+		}
+
+		public ProgressBar geteEnergyBar() {
+			return eEnergyBar;
+		}
+
+		public void seteEnergyBar(ProgressBar eEnergyBar) {
+			this.eEnergyBar = eEnergyBar;
+		}
+
+		public ImageButton getcAttack() {
+			return cAttack;
+		}
+
+		public void setcAttack(ImageButton cAttack) {
+			this.cAttack = cAttack;
+		}
+
+		public ImageButton geteProfile() {
+			return eProfile;
+		}
+
+		public void seteProfile(ImageButton eProfile) {
+			this.eProfile = eProfile;
+		}
+		// endregion getterssetters
+		
+	}
+
 }

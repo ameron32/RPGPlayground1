@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +23,8 @@ import com.rpgplayground.resourcetools.AudioUtility;
 
 public class Test extends Activity implements OnClickListener {
 
+	Context context;
+	
 	Boolean disabled = true;
 
 	ItemSerializer is = new ItemSerializer();
@@ -32,12 +37,13 @@ public class Test extends Activity implements OnClickListener {
 	Button rCSV, rDAT, wCSV, wDAT, startRec, stopRec, playRec;
 
 	TextView textView, ResultOfRecording;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
+		context = getApplicationContext();
 
 		textView = (TextView) findViewById(R.id.tvText);
 		ResultOfRecording = (TextView) findViewById(R.id.tvResultOfRecording);
@@ -65,6 +71,7 @@ public class Test extends Activity implements OnClickListener {
 		allItems.add(item2);
 		allItems.add(item3);
 		allItems.add(item4);
+		
 	}
 
 	public void onClick(View v) {

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rpgplayground.R;
+import com.rpgplayground.character.EnemyCharacter;
 
 public class LayoutManager extends Activity implements OnClickListener {
 
@@ -42,8 +43,28 @@ public class LayoutManager extends Activity implements OnClickListener {
 	public void loadParent(int layoutGroup) {
 		loadedView = LayoutInflater.from(context).inflate(layoutGroup, parent, false);
 	}
-
 	
+	public void updateDisplay(EnemyCharacter e) {
+		eHealth.setText(e.getCurrentHealth() + " / " + e.getMaxHealth());
+		eEnergy.setText(e.getCurrentEnergy() + " / " + e.getMaxEnergy());
+		eName.setText(e.getName());
+		eClass.setText(e.getCharacterClassChoice().toString());
+		eProfile.setImageResource(((EnemyCharacter) e).getImageResource());
+		if (e.getMaxHealth() <= 0) {
+			eHealthBar.setMax(1);
+			eHealthBar.setProgress(0);
+		} else {
+			eHealthBar.setMax(e.getMaxHealth());
+			eHealthBar.setProgress(e.getCurrentHealth());
+		}
+		if (e.getMaxEnergy() <= 0) {
+			eEnergyBar.setMax(1);
+			eEnergyBar.setProgress(0);
+		} else {
+			eEnergyBar.setMax(e.getMaxEnergy());
+			eEnergyBar.setProgress(e.getCurrentEnergy());
+		}
+	}
 	
 	public void onClick(View v) {
 		Toast.makeText(getApplicationContext(), "Working...", Toast.LENGTH_SHORT).show();
@@ -54,5 +75,7 @@ public class LayoutManager extends Activity implements OnClickListener {
 		}
 		
 	}
+	
+	
 	
 }
