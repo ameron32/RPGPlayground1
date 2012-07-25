@@ -80,7 +80,7 @@ public class Battle extends Activity implements OnClickListener {
 
 	BattleHelper bh = new BattleHelper();
 	// TODO depreciate e1
-	EnemyCharacter enemyCharacter1 = new EnemyCharacter();
+//	EnemyCharacter enemyCharacter1 = new EnemyCharacter();
 	// TODO List<EnemyCharacter> activeAllies = new arrayList<EnemyCharacter>();
 	// TODO convert Character me to PlayerCharacter me
 	Character me = new Character();
@@ -459,7 +459,7 @@ public class Battle extends Activity implements OnClickListener {
 	 * Game Private Methods
 	 */
 	private void startround() {
-		enemyInterfaces.clear();
+		removeAllEnemyInterfaces();
 		EnemySelector es = new EnemySelector();
 		// TODO depreciate e1
 		Random r = new Random();
@@ -557,40 +557,41 @@ public class Battle extends Activity implements OnClickListener {
 
 	}
 
-	private CharSequence buildCombatLog(Character c, int abilityId, Boolean last) {
+	private CharSequence appendToCombatLog(Character c, int abilityId, Boolean last) {
 
 		// TODO now only functions correctly when successful
-
+		
+		
 		StringBuilder sb = new StringBuilder();
-		if (c == me) {
-
-			sb.append(bh.getAbilityTotalDamage(abilityId) + " - "
-					+ bh.getDefenderTotalResistance() + " = "
-					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId)
-					+ " damage2enemy");
-
-			// old process
-			// sb.append(meTAttack + " - " + e1TDefend + " = " + meSuccessD
-			// + " damage2enemy");
-			sb.append("\n");
-		}
-
-		if (c == enemyCharacter1) {
-
-			sb.append(bh.getAbilityTotalDamage(abilityId) + " - "
-					+ bh.getDefenderTotalResistance() + " = "
-					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId)
-					+ " damage2you");
-
-			// old process
-			// sb.append(e1TAttack + " - " + meTDefend + " = " + e1SuccessD
-			// + " damage2you");
-			sb.append("\n");
-		}
-
-		if (last) {
-			sb.append("\n");
-		}
+//		if (c == me) {
+//
+//			sb.append(bh.getAbilityTotalDamage(abilityId) + " - "
+//					+ bh.getDefenderTotalResistance() + " = "
+//					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId)
+//					+ " damage2enemy");
+//
+//			// old process
+//			// sb.append(meTAttack + " - " + e1TDefend + " = " + meSuccessD
+//			// + " damage2enemy");
+//			sb.append("\n");
+//		}
+//
+//		if (c == enemyCharacter1) {
+//
+//			sb.append(bh.getAbilityTotalDamage(abilityId) + " - "
+//					+ bh.getDefenderTotalResistance() + " = "
+//					+ bh.useAbilityAttack(enemyCharacter1, me, abilityId)
+//					+ " damage2you");
+//
+//			// old process
+//			// sb.append(e1TAttack + " - " + meTDefend + " = " + e1SuccessD
+//			// + " damage2you");
+//			sb.append("\n");
+//		}
+//
+//		if (last) {
+//			sb.append("\n");
+//		}
 
 		combatLogString += "" + sb;
 		return combatLogString;
@@ -694,9 +695,10 @@ public class Battle extends Activity implements OnClickListener {
 
 			// "attack" chosen
 			if (playerCommand == "attack") {
-				enemyCharacter1.takeDamage(bh.useAbilityAttack(me,
-						enemyCharacter1, 10101));
-				combatLog.setText(buildCombatLog(me, 10101, false));
+				EnemyCharacter firstEnemy = enemyInterfaces.get(0).getEnemyCharacter();
+				firstEnemy.takeDamage(bh.useAbilityAttack(me,
+						firstEnemy, 10101));
+				combatLog.setText(appendToCombatLog(me, 10101, false));
 			}
 			// "whirlwind" chosen (remove later)
 			if (playerCommand == "whirlwind") {
@@ -705,7 +707,7 @@ public class Battle extends Activity implements OnClickListener {
 					ec.takeDamage(bh.useAbilityAttack(me, ec, 10201));
 				}
 				me.spendEnergy(3);
-				combatLog.setText(buildCombatLog(me, 10201, false));
+				combatLog.setText(appendToCombatLog(me, 10201, false));
 			}
 
 			for (EnemyInterface ei : enemyInterfaces) {
@@ -721,7 +723,7 @@ public class Battle extends Activity implements OnClickListener {
 		EnemyCharacter ec = ei.getEnemyCharacter();
 		if (ec.getCurrentHealth() > 0) {
 			me.takeDamage(bh.useAbilityAttack(ec, me, 10101));
-			combatLog.setText(buildCombatLog(ec, 10101, true));
+			combatLog.setText(appendToCombatLog(ec, 10101, true));
 		} else {
 			Toast.makeText(getApplicationContext(), "You win",
 					Toast.LENGTH_SHORT).show();
@@ -814,20 +816,38 @@ public class Battle extends Activity implements OnClickListener {
 				eEnergy, eName, eClass, eHealthBar, eEnergyBar, cAttack,
 				eProfile);
 		EnemyInterface enemyInterface = new EnemyInterface(enemyCharacter,
-				enemyPackage);
+				enemyPackage, vg, enemyLayout);
+
 		moreEnemies.addView(enemyLayout);
 		return enemyInterface;
 		// endregion TESTb
 	}
+	
+	private void removeAllEnemyInterfaces() {
+//		for (EnemyInterface ei : enemyInterfaces) {
+//			removeEnemyInterface(ei);
+//		}
+		moreEnemies.removeAllViews();
+		enemyInterfaces.clear();
+	}
+	
+//	private void removeEnemyInterface(EnemyInterface ei) {
+//		moreEnemies.removeView(ei.getEnemyView());
+//	}
 
 	class EnemyInterface {
 
 		EnemyCharacter enemyCharacter;
 		LayoutPackage enemyLayout;
+		ViewGroup vg;
+		View enemyView;
 
-		public EnemyInterface(EnemyCharacter ec, LayoutPackage lp) {
+		public EnemyInterface(EnemyCharacter ec, LayoutPackage lp, ViewGroup vg, View enemyView) {
 			enemyCharacter = ec;
 			enemyLayout = lp;
+			vg = (ViewGroup) findViewById(R.layout.enemylayout);
+			enemyView = LayoutInflater.from(context).inflate(
+					R.layout.enemylayout, vg, false);
 		}
 
 		public EnemyCharacter getEnemyCharacter() {
@@ -845,6 +865,24 @@ public class Battle extends Activity implements OnClickListener {
 		public void setEnemyLayout(LayoutPackage enemyLayout) {
 			this.enemyLayout = enemyLayout;
 		}
+
+		public ViewGroup getVg() {
+			return vg;
+		}
+
+		public void setVg(ViewGroup vg) {
+			this.vg = vg;
+		}
+
+		public View getEnemyView() {
+			return enemyView;
+		}
+
+		public void setEnemyView(View enemyView) {
+			this.enemyView = enemyView;
+		}
+		
+		
 
 	}
 

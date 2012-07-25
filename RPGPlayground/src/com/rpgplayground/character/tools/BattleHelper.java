@@ -112,10 +112,12 @@ public class BattleHelper {
 			damageMultiplier = abilityUsed.getDamageMultiplier();
 		}
 
-		int abilityDamage = 0;
+		int abilityDamage = (int) Math.round(attacker
+				.getTotalCalculatedDamage() * damageMultiplier);
+		storeAbilityTotals(AbilityType.Attack, abilityDamage);
 		if (isSuccessful(attacker, defender, damageMultiplier)) {
-			abilityDamage = (int) Math.round(attacker.getTotalCalculatedDamage()
-					* damageMultiplier);
+			abilityDamage = (int) Math.round(attacker
+					.getTotalCalculatedDamage() * damageMultiplier);
 			defenderTotalResistance = defender.getTotalCalculatedResistance();
 			damageToDefender = abilityDamage - defenderTotalResistance;
 		} else {
@@ -123,7 +125,6 @@ public class BattleHelper {
 		}
 
 		this.damageToDefender = damageToDefender;
-		storeAbilityTotals(AbilityType.Attack, abilityDamage);
 		return damageToDefender;
 	}
 
