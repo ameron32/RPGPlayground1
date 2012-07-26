@@ -34,13 +34,13 @@ public class DialogTest extends Activity {
 				dialog.setTitle("Title...");
 
 				// set the custom dialog components - text, image and button
-				TextView text = (TextView) dialog.findViewById(R.id.ad1text);
+				TextView text = (TextView) dialog.findViewById(R.id.adText);
 				text.setText("Android custom dialog example!");
-				ImageView image = (ImageView) dialog.findViewById(R.id.ad1image);
+				ImageView image = (ImageView) dialog.findViewById(R.id.adImage);
 				image.setImageResource(R.drawable.ic_launcher);
 
 				Button dialogButton = (Button) dialog
-						.findViewById(R.id.ad1button);
+						.findViewById(R.id.adButton);
 				// if button is clicked, close the custom dialog
 				dialogButton.setOnClickListener(new OnClickListener() {
 //					@Override

@@ -5,6 +5,8 @@ public class Ability {
 	String abilityName;
 	String description;
 	int abilityId;
+	int resourceId;
+	
 	int range;
 	double damageMultiplier;
 	double healMultiplier;
@@ -20,8 +22,8 @@ public class Ability {
 	 * @param range
 	 * @param damagePercent
 	 */
-	public Ability(String name, String description, int id, int range, double damagePercent, int energyCost) {
-		setCoreAbility(name, description, id, range, damagePercent, energyCost);
+	public Ability(String name, String description, int id, int resourceId, int range, double damagePercent, int energyCost) {
+		setCoreAbility(name, description, id, resourceId, range, damagePercent, energyCost);
 
 		unlimitedTargets = false;
 		numberOfTargetsPerAttack = 1;
@@ -34,9 +36,9 @@ public class Ability {
 	 * @param numberOfTargetsPerAttack
 	 * @param unlimitedTargets
 	 */
-	public Ability(String name, String description, int id, int range, double damagePercent, int numberOfTargetsPerAttack,
+	public Ability(String name, String description, int id, int resourceId, int range, double damagePercent, int numberOfTargetsPerAttack,
 			boolean unlimitedTargets, int energyCost) {
-		setCoreAbility(name, description, id, range, damagePercent, energyCost);
+		setCoreAbility(name, description, id, resourceId, range, damagePercent, energyCost);
 
 		this.unlimitedTargets = unlimitedTargets;
 		if (unlimitedTargets) {
@@ -46,10 +48,11 @@ public class Ability {
 		}
 	}
 	
-	private void setCoreAbility(String name, String description, int id, int range, double damagePercent, int energyCost) {
+	private void setCoreAbility(String name, String description, int id, int resourceId, int range, double damagePercent, int energyCost) {
 		this.abilityName = name;
 		this.description = description;
 		this.abilityId = id;
+		this.resourceId = resourceId;
 		if (range > 0) {
 			this.range = range;
 		} else {
@@ -154,4 +157,22 @@ public class Ability {
 	public void setHealthCost(int healthCost) {
 		this.healthCost = healthCost;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getResourceId() {
+		return resourceId;
+	}
+
+	public void setResourceId(int resourceId) {
+		this.resourceId = resourceId;
+	}
+
+
 }

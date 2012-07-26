@@ -37,8 +37,10 @@ import com.rpgplayground.character.item.Item;
 import com.rpgplayground.character.item.tools.ItemChooser;
 import com.rpgplayground.character.item.tools.ItemChooser.ChooserOption;
 import com.rpgplayground.character.tools.BattleHelper;
+import com.rpgplayground.character.tools.BattleHelper.AbilityType;
 import com.rpgplayground.character.tools.EnemySelector;
 import com.rpgplayground.event.ButtonEvent;
+import com.rpgplayground.event.ButtonEventCreator;
 import com.rpgplayground.event.ButtonEventListener;
 //import com.rpgplayground.layout.EnemyInterface;
 import com.rpgplayground.layout.LayoutPackage;
@@ -56,25 +58,17 @@ public class Battle extends Activity implements OnClickListener,
 
 	// needed for Dialog
 	final Context context = this;
-	// LayoutManager lm;
+	Dialog dialog = null;
+	// for Dialog instances
+	LinearLayout allAbilities;
+
+	// enemyInterfaces are required for each instance of enemies
+	List<EnemyInterface> enemyInterfaces = new ArrayList<EnemyInterface>();
+	LinearLayout moreEnemies;
 
 	Button start, reset, setName, heal, run, rest, meItem, e1Item, selectName,
 			selectHead, selectChest, selectArms, selectLegs;
-
-	// region TESTa
-	// new instance of enemy TEST
-	List<EnemyInterface> enemyInterfaces = new ArrayList<EnemyInterface>();
-	// List<Button> allEnemyIncludeButtons = new ArrayList<Button>();
-	// List<ImageButton> allEnemyIncludeImageButtons = new
-	// ArrayList<ImageButton>();
-	// List<TextView> allEnemyIncludeTextViews = new ArrayList<TextView>();
-	// List<ProgressBar> allEnemyIncludeProgressBars = new
-	// ArrayList<ProgressBar>();
-	LinearLayout moreEnemies;
-	// View genericEnemyView;
-	// endregion TESTa
-
-	ImageButton attack, e1Profile, meHeal;
+	ImageButton meHeal;
 	TextView e1Name, e1Class, e1Health, e1Energy, eTV, meName, meClass,
 			meHealth, meEnergy, metv, meXPtext, combatLog, nName, headName,
 			headArmor, headBoost, headGValue, chestName, chestArmor,
@@ -83,8 +77,6 @@ public class Battle extends Activity implements OnClickListener,
 	ProgressBar e1HPb, e1EPb, meHPb, meEPb;
 
 	BattleHelper bh = new BattleHelper();
-	// TODO depreciate e1
-	// EnemyCharacter enemyCharacter1 = new EnemyCharacter();
 	// TODO List<EnemyCharacter> activeAllies = new arrayList<EnemyCharacter>();
 	// TODO convert Character me to PlayerCharacter me
 	Character me = new Character();
@@ -107,66 +99,11 @@ public class Battle extends Activity implements OnClickListener,
 	}
 
 	private void initialize() {
-		// lm = new LayoutManager(context, R.layout.enemylayout);
 		moreEnemies = (LinearLayout) findViewById(R.id.llMoreEnemies);
 
 		setName = (Button) findViewById(R.id.bSetName);
 		start = (Button) findViewById(R.id.bStart);
 		reset = (Button) findViewById(R.id.bReset);
-
-		// attack = (ImageButton) findViewById(R.id.ibAttack);
-		// attack Dialog initialization
-
-		// attack.setOnClickListener(new OnClickListener() {
-		// public void onClick(View v) {
-		// final Dialog dialog = new Dialog(context);
-		// dialog.setContentView(R.layout.attack_dialog);
-		// dialog.setTitle("Choose Your Action...");
-		//
-		// OnClickListener ocl = new OnClickListener() {
-		// public void onClick(View v) {
-		// switch (v.getId()) {
-		// case R.id.ad1button:
-		// turns("attack", "");
-		// break;
-		// case R.id.ad2button:
-		// turns("whirlwind", "");
-		// break;
-		// }
-		//
-		// dialog.dismiss();
-		// }
-		// };
-		//
-		// addAPlayerAbility(dialog, ocl, R.id.ad1image,
-		// R.drawable.ic_launcher, R.id.ad1text,
-		// "Main and OffHand or TwoHand Attack", R.id.ad1button,
-		// "Primary Attack");
-		// addAPlayerAbility(dialog, ocl, R.id.ad2image,
-		// R.drawable.ic_launcher, R.id.ad2text,
-		// "Attacks all targets for 75% damage", R.id.ad2button,
-		// "Whirlwind");
-		// ImageView dImage1 = (ImageView) dialog
-		// .findViewById(R.id.ad1image);
-		// dImage1.setImageResource(R.drawable.ic_launcher);
-		// TextView dText1 = (TextView) dialog.findViewById(R.id.ad1text);
-		// dText1.setText("Main and OffHand or TwoHand Attack");
-		// Button dButton1 = (Button) dialog.findViewById(R.id.ad1button);
-		// dButton1.setText("Primary Attack");
-		// dButton1.setOnClickListener(ocl);
-		//
-		// ImageView dImage2 = (ImageView) dialog
-		// .findViewById(R.id.ad2image);
-		// dImage2.setImageResource(R.drawable.ic_launcher);
-		// TextView dText2 = (TextView) dialog.findViewById(R.id.ad2text);
-		// dText2.setText("Attacks all targets for 75% damage");
-		// Button dButton2 = (Button) dialog.findViewById(R.id.ad2button);
-		// dButton2.setText("Whirlwind");
-		// dButton2.setOnClickListener(ocl);
-		//
-		// dialog.show();
-		// }
-		// });
 
 		heal = (Button) findViewById(R.id.bHeal);
 		meHeal = (ImageButton) findViewById(R.id.ibMeHeal);
@@ -175,18 +112,12 @@ public class Battle extends Activity implements OnClickListener,
 		e1Item = (Button) findViewById(R.id.bE1Item);
 		meItem = (Button) findViewById(R.id.bMeItem);
 
-		// e1Profile = (ImageButton) findViewById(R.id.ibE1Profile);
-
 		selectName = (Button) findViewById(R.id.bSelectName);
 		selectHead = (Button) findViewById(R.id.bSelectHead);
 		selectChest = (Button) findViewById(R.id.bSelectChest);
 		selectArms = (Button) findViewById(R.id.bSelectArms);
 		selectLegs = (Button) findViewById(R.id.bSelectLegs);
 
-		// e1Name = (TextView) findViewById(R.id.tvE1Name);
-		// e1Class = (TextView) findViewById(R.id.tvE1Class);
-		// e1Health = (TextView) findViewById(R.id.tvE1Health);
-		// e1Energy = (TextView) findViewById(R.id.tvE1Energy);
 		meName = (TextView) findViewById(R.id.tvMeName);
 		meClass = (TextView) findViewById(R.id.tvMeClass);
 		meHealth = (TextView) findViewById(R.id.tvMeHealth);
@@ -207,8 +138,6 @@ public class Battle extends Activity implements OnClickListener,
 
 		editName = (EditText) findViewById(R.id.etName);
 
-		// e1HPb = (ProgressBar) findViewById(R.id.pbE1Health);
-		// e1EPb = (ProgressBar) findViewById(R.id.pbE1Energy);
 		meHPb = (ProgressBar) findViewById(R.id.pbMeHealth);
 		meEPb = (ProgressBar) findViewById(R.id.pbMeEnergy);
 
@@ -366,20 +295,22 @@ public class Battle extends Activity implements OnClickListener,
 	}
 
 	public void onClick(View v) {
+		AbilitySelector as = new AbilitySelector();
 		switch (v.getId()) {
 		case R.id.bStart:
 			startround();
 			break;
 
 		// R.id.ibAttack does not use the same onClickListener
-		case R.id.bHeal:
-			if (me.getCurrentEnergy() > 0) {
-				turns("heal", "me");
-			} else {
-				Toast.makeText(getApplicationContext(), "Out of Energy",
-						Toast.LENGTH_SHORT).show();
-			}
-			break;
+		// case R.id.bHeal:
+		// if (me.getCurrentEnergy() > 0) {
+		// turns(as.getAbility(12101), "me");
+		//
+		// } else {
+		// Toast.makeText(getApplicationContext(), "Out of Energy",
+		// Toast.LENGTH_SHORT).show();
+		// }
+		// break;
 
 		case R.id.ibMeHeal:
 			if (me.getCurrentEnergy() > 0) {
@@ -393,11 +324,11 @@ public class Battle extends Activity implements OnClickListener,
 			break;
 
 		case R.id.bRun:
-			turns("run", "me");
+			turns(as.getAbility(11101), "me");
 			break;
 
 		case R.id.bRest:
-			turns("rest", "me");
+			turns(as.getAbility(0), "me");
 			break;
 
 		case R.id.bSetName:
@@ -455,6 +386,11 @@ public class Battle extends Activity implements OnClickListener,
 
 		case R.id.tvWorldNews:
 			worldNewsIsVisible = false;
+			break;
+
+		case R.id.adButton:
+			// turns(ability, "");
+			dialog.dismiss();
 			break;
 
 		}
@@ -682,7 +618,7 @@ public class Battle extends Activity implements OnClickListener,
 		return bundleOfItems;
 	}
 
-	private void turns(String playerCommand, String target) {
+	private void turns(Ability ability, String target) {
 
 		/**
 		 * // "heal" chosen if (playerCommand == "heal") {
@@ -690,43 +626,36 @@ public class Battle extends Activity implements OnClickListener,
 		 * me.setCurrentEnergy(me.getCurrentEnergy() - 1); }
 		 */
 
-		// "rest" chosen
-		if (playerCommand == "rest") {
+		switch (ability.getAbilityId()) {
+		case 0: // rest not programmed
 			me.setCurrentEnergy(me.getCurrentEnergy() + 5);
+			break;
+		case 11101: // run
+			for (EnemyInterface ei : enemyInterfaces) {
+				enemyTurn(ei);
+				resetEnemy(ei);
+			}
+			Toast.makeText(getApplicationContext(),
+					"You are hit in the back as you flee.", Toast.LENGTH_SHORT)
+					.show();
+			break;
+		case 10101: // primary attack
+			EnemyCharacter firstEnemy = enemyInterfaces.get(0)
+					.getEnemyCharacter();
+			firstEnemy.takeDamage(bh.useAbilityAttack(me, firstEnemy, 10101));
+			combatLog.setText(appendToCombatLog(me, 10101, false));
+			break;
+		case 10201: // whirlwind
+			for (EnemyInterface ei : enemyInterfaces) {
+				EnemyCharacter ec = ei.getEnemyCharacter();
+				ec.takeDamage(bh.useAbilityAttack(me, ec, 10201));
+			}
+			me.spendEnergy(3);
+			combatLog.setText(appendToCombatLog(me, 10201, false));
+			break;
 		}
 
-		if (me.getCurrentHealth() > 0) {
-
-			// Player turn
-			// "run" chosen
-			if (playerCommand == "run") {
-				for (EnemyInterface ei : enemyInterfaces) {
-					enemyTurn(ei);
-					resetEnemy(ei);
-				}
-				Toast.makeText(getApplicationContext(),
-						"You are hit in the back as you flee.",
-						Toast.LENGTH_SHORT).show();
-			}
-
-			// "attack" chosen
-			if (playerCommand == "attack") {
-				EnemyCharacter firstEnemy = enemyInterfaces.get(0)
-						.getEnemyCharacter();
-				firstEnemy.takeDamage(bh
-						.useAbilityAttack(me, firstEnemy, 10101));
-				combatLog.setText(appendToCombatLog(me, 10101, false));
-			}
-			// "whirlwind" chosen (remove later)
-			if (playerCommand == "whirlwind") {
-				for (EnemyInterface ei : enemyInterfaces) {
-					EnemyCharacter ec = ei.getEnemyCharacter();
-					ec.takeDamage(bh.useAbilityAttack(me, ec, 10201));
-				}
-				me.spendEnergy(3);
-				combatLog.setText(appendToCombatLog(me, 10201, false));
-			}
-
+		if (enemyInterfaces.size() != 0) {
 			for (EnemyInterface ei : enemyInterfaces) {
 				if (ei.getEnemyCharacter().getCurrentHealth() <= 0) {
 					resetEnemy(ei);
@@ -737,7 +666,59 @@ public class Battle extends Activity implements OnClickListener,
 					enemyTurn(ei);
 				}
 			}
+		} else {
+			Toast.makeText(getApplicationContext(), "No enemies",
+					Toast.LENGTH_SHORT).show();
 		}
+
+		// // "rest" chosen
+		// if (ability.getAbilityId() == 10101) {
+		// me.setCurrentEnergy(me.getCurrentEnergy() + 5);
+		// }
+		//
+		// if (me.getCurrentHealth() > 0) {
+		//
+		// // Player turn
+		// // "run" chosen
+		// if (ability.getAbility == "run") {
+		// for (EnemyInterface ei : enemyInterfaces) {
+		// enemyTurn(ei);
+		// resetEnemy(ei);
+		// }
+		// Toast.makeText(getApplicationContext(),
+		// "You are hit in the back as you flee.",
+		// Toast.LENGTH_SHORT).show();
+		// }
+		//
+		// // "attack" chosen
+		// if (playerCommand == "attack") {
+		// EnemyCharacter firstEnemy = enemyInterfaces.get(0)
+		// .getEnemyCharacter();
+		// firstEnemy.takeDamage(bh
+		// .useAbilityAttack(me, firstEnemy, 10101));
+		// combatLog.setText(appendToCombatLog(me, 10101, false));
+		// }
+		// // "whirlwind" chosen (remove later)
+		// if (playerCommand == "whirlwind") {
+		// for (EnemyInterface ei : enemyInterfaces) {
+		// EnemyCharacter ec = ei.getEnemyCharacter();
+		// ec.takeDamage(bh.useAbilityAttack(me, ec, 10201));
+		// }
+		// me.spendEnergy(3);
+		// combatLog.setText(appendToCombatLog(me, 10201, false));
+		// }
+		// for (EnemyInterface ei : enemyInterfaces) {
+		// if (ei.getEnemyCharacter().getCurrentHealth() <= 0) {
+		// resetEnemy(ei);
+		// meXP += ei.getEnemyCharacter().getXPGain();
+		// Toast.makeText(getApplicationContext(), "Enemy Defeated",
+		// Toast.LENGTH_SHORT).show();
+		// } else {
+		// enemyTurn(ei);
+		// }
+		// }
+
+		// }
 
 		updateDisplay();
 	}
@@ -751,8 +732,8 @@ public class Battle extends Activity implements OnClickListener,
 		} else {
 			Toast.makeText(getApplicationContext(), "You win",
 					Toast.LENGTH_SHORT).show();
-//			meXP += ec.getXPGain();
-//			resetEnemy(ei);
+			// meXP += ec.getXPGain();
+			// resetEnemy(ei);
 		}
 		if (me.getCurrentHealth() <= 0) {
 			Toast.makeText(getApplicationContext(), "You lose",
@@ -831,12 +812,10 @@ public class Battle extends Activity implements OnClickListener,
 
 	private EnemyInterface createEnemyInterface(int enemyNumber,
 			EnemyCharacter enemyCharacter) {
-		// region TESTb
-		// new instance of enemy TEST
-
 		ViewGroup vg = (ViewGroup) findViewById(R.layout.enemylayout);
 		View enemyLayout = LayoutInflater.from(context).inflate(
 				R.layout.enemylayout, vg, false);
+
 		TextView eHealth = (TextView) enemyLayout.findViewById(R.id.tvEHealth);
 		TextView eEnergy = (TextView) enemyLayout.findViewById(R.id.tvEEnergy);
 		TextView eName = (TextView) enemyLayout.findViewById(R.id.tvEName);
@@ -858,7 +837,6 @@ public class Battle extends Activity implements OnClickListener,
 
 		moreEnemies.addView(enemyLayout);
 		return enemyInterface;
-		// endregion TESTb
 	}
 
 	private void removeAllEnemyInterfaces() {
@@ -1075,60 +1053,95 @@ public class Battle extends Activity implements OnClickListener,
 	//
 	// }
 
-	public void onButtonEvent(LayoutPackage lp, ButtonEvent event) {
+	public void onButtonEvent(EnemyInterface ei, ButtonEvent event, Ability ability) {
 		switch (event.getType()) {
 		case Attack:
-			abilityDialog(lp.getId());
+			createAbilityDialog(ei.getEnemyLayout().getId());
 			break;
 		case Profile:
 			// TODO Open profile.
 			break;
+		case UseAbility:
+			dialog.dismiss();
+			turns(ability, "");
+			break;
 		}
 	}
 
-	private void abilityDialog(int enemyId) {
-		final Dialog dialog = new Dialog(context);
+	private void createAbilityDialog(int enemyId) {
+		dialog = new Dialog(context);
 		dialog.setContentView(R.layout.attack_dialog);
 		dialog.setTitle("Choose Your Action...");
+
+		allAbilities = (LinearLayout) dialog.findViewById(R.id.llMoreAbilities);
+		View newView;
+		AbilitySelector as = new AbilitySelector();
+
+		newView = abilityDialog(dialog, R.id.adImage, R.id.adText,
+				R.id.adButton, as.getAbility(10101));
+		allAbilities.addView(newView);
+
+		newView = abilityDialog(dialog, R.id.adImage, R.id.adText,
+				R.id.adButton, as.getAbility(10201));
+		allAbilities.addView(newView);
+
+		// addAPlayerAbility(dialog, ocl, R.id.ad1image, R.drawable.ic_launcher,
+		// R.id.ad1text, "Main and OffHand or TwoHand Attack",
+		// R.id.ad1button, "Primary Attack");
+		//
+		// ImageView dImage1 = (ImageView) dialog.findViewById(R.id.ad1image);
+		// dImage1.setImageResource(R.drawable.ic_launcher);
+		// TextView dText1 = (TextView) dialog.findViewById(R.id.ad1text);
+		// dText1.setText("Main and OffHand or TwoHand Attack");
+		// Button dButton1 = (Button) dialog.findViewById(R.id.ad1button);
+		// dButton1.setText("Primary Attack");
+		// dButton1.setOnClickListener(ocl);
+
+		// ImageView dImage2 = (ImageView) dialog.findViewById(R.id.ad2image);
+		// dImage2.setImageResource(R.drawable.ic_launcher);
+		// TextView dText2 = (TextView) dialog.findViewById(R.id.ad2text);
+		// dText2.setText("Attacks all targets for 75% damage");
+		// Button dButton2 = (Button) dialog.findViewById(R.id.ad2button);
+		// dButton2.setText("Whirlwind");
+		// dButton2.setOnClickListener(ocl);
+
+		dialog.show();
+	}
+
+	private View abilityDialog(Dialog dialog, int imageLayoutId,
+			int textDescLayoutId, int buttonLayoutId, Ability ability) {
 
 		OnClickListener ocl = new OnClickListener() {
 			public void onClick(View v) {
 				switch (v.getId()) {
-				case R.id.ad1button:
-					turns("attack", "");
+				case R.id.adButton:
+					
+					//	turns(ability, "");
 					break;
-				case R.id.ad2button:
-					turns("whirlwind", "");
-					break;
+				// case R.id.ad2button:
+				// turns("whirlwind", "");
+				// break;
 				}
-
-				dialog.dismiss();
 			}
 		};
 
-		addAPlayerAbility(dialog, ocl, R.id.ad1image, R.drawable.ic_launcher,
-				R.id.ad1text, "Main and OffHand or TwoHand Attack",
-				R.id.ad1button, "Primary Attack");
-		addAPlayerAbility(dialog, ocl, R.id.ad2image, R.drawable.ic_launcher,
-				R.id.ad2text, "Attacks all targets for 75% damage",
-				R.id.ad2button, "Whirlwind");
-		ImageView dImage1 = (ImageView) dialog.findViewById(R.id.ad1image);
-		dImage1.setImageResource(R.drawable.ic_launcher);
-		TextView dText1 = (TextView) dialog.findViewById(R.id.ad1text);
-		dText1.setText("Main and OffHand or TwoHand Attack");
-		Button dButton1 = (Button) dialog.findViewById(R.id.ad1button);
-		dButton1.setText("Primary Attack");
-		dButton1.setOnClickListener(ocl);
+		// addAPlayerAbility(dialog, imageLayoutId, pictureResourceId,
+		// textDescLayoutId, description, buttonLayoutId, abilityName);
 
-		ImageView dImage2 = (ImageView) dialog.findViewById(R.id.ad2image);
-		dImage2.setImageResource(R.drawable.ic_launcher);
-		TextView dText2 = (TextView) dialog.findViewById(R.id.ad2text);
-		dText2.setText("Attacks all targets for 75% damage");
-		Button dButton2 = (Button) dialog.findViewById(R.id.ad2button);
-		dButton2.setText("Whirlwind");
-		dButton2.setOnClickListener(ocl);
+		ViewGroup vg = (ViewGroup) findViewById(R.layout.attack_dialog_ability);
+		View abilityView = LayoutInflater.from(context).inflate(
+				R.layout.attack_dialog_ability, vg, false);
 
-		dialog.show();
+		ImageView dImage = (ImageView) abilityView.findViewById(imageLayoutId);
+		dImage.setImageResource(ability.getResourceId());
+		TextView dText = (TextView) abilityView.findViewById(textDescLayoutId);
+		dText.setText(ability.getDescription());
+		Button dButton = (Button) abilityView.findViewById(buttonLayoutId);
+		dButton.setText(ability.getAbilityName());
+		dButton.setOnClickListener(this);
+
+		return abilityView;
+
 	}
 
 }

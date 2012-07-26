@@ -6,54 +6,10 @@
     android:padding="10dp" >
 
     <LinearLayout
+        android:id="@+id/llMoreAbilities"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" >
-
-        <ImageView
-            android:id="@+id/ad1image"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-        <Button
-            android:id="@+id/ad1button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Attack1" />
-
-        <TextView
-            android:id="@+id/ad1text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Text1"
-            android:textColor="#FFF" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" >
-
-        <ImageView
-            android:id="@+id/ad2image"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-
-        <Button
-            android:id="@+id/ad2button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Attack2" />
-
-        <TextView
-            android:id="@+id/ad2text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Text2"
-            android:textColor="#FFF" />
-
+        android:orientation="vertical" >
     </LinearLayout>
 
 </LinearLayout>
