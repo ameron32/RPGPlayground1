@@ -42,6 +42,7 @@ import com.rpgplayground.character.tools.EnemySelector;
 import com.rpgplayground.event.ButtonEvent;
 import com.rpgplayground.event.ButtonEventCreator;
 import com.rpgplayground.event.ButtonEventListener;
+import com.rpgplayground.layout.EnemyInterface;
 //import com.rpgplayground.layout.EnemyInterface;
 import com.rpgplayground.layout.LayoutPackage;
 
@@ -832,7 +833,7 @@ public class Battle extends Activity implements OnClickListener,
 		LayoutPackage enemyPackage = new LayoutPackage(this, enemyNumber,
 				eHealth, eEnergy, eName, eClass, eHealthBar, eEnergyBar,
 				cAttack, eProfile);
-		EnemyInterface enemyInterface = new EnemyInterface(enemyNumber,
+		EnemyInterface enemyInterface = new EnemyInterface(this, enemyNumber,
 				enemyCharacter, enemyPackage, vg, enemyLayout);
 
 		moreEnemies.addView(enemyLayout);
@@ -862,68 +863,68 @@ public class Battle extends Activity implements OnClickListener,
 	// }
 	// }
 
-	class EnemyInterface {
-
-		EnemyCharacter enemyCharacter;
-		LayoutPackage enemyLayout;
-		ViewGroup vg;
-		View enemyView;
-		int id;
-
-		public EnemyInterface(int id, EnemyCharacter ec, LayoutPackage lp,
-				ViewGroup vg, View enemyView) {
-			this.id = id;
-			enemyCharacter = ec;
-			enemyLayout = lp;
-			vg = (ViewGroup) findViewById(R.layout.enemylayout);
-			enemyView = LayoutInflater.from(context).inflate(
-					R.layout.enemylayout, vg, false);
-		}
-
-		// region eiGettersSetters
-		public EnemyCharacter getEnemyCharacter() {
-			return enemyCharacter;
-		}
-
-		public void setEnemyCharacter(EnemyCharacter enemyCharacter) {
-			this.enemyCharacter = enemyCharacter;
-		}
-
-		public LayoutPackage getEnemyLayout() {
-			return enemyLayout;
-		}
-
-		public void setEnemyLayout(LayoutPackage enemyLayout) {
-			this.enemyLayout = enemyLayout;
-		}
-
-		public ViewGroup getVg() {
-			return vg;
-		}
-
-		public void setVg(ViewGroup vg) {
-			this.vg = vg;
-		}
-
-		public View getEnemyView() {
-			return enemyView;
-		}
-
-		public void setEnemyView(View enemyView) {
-			this.enemyView = enemyView;
-		}
-
-		public int getId() {
-			return id;
-		}
-
-		public void setId(int id) {
-			this.id = id;
-		}
-
-		// endregion eiGettersSetters
-
-	}
+//	class EnemyInterface {
+//
+//		EnemyCharacter enemyCharacter;
+//		LayoutPackage enemyLayout;
+//		ViewGroup vg;
+//		View enemyView;
+//		int id;
+//
+//		public EnemyInterface(int id, EnemyCharacter ec, LayoutPackage lp,
+//				ViewGroup vg, View enemyView) {
+//			this.id = id;
+//			enemyCharacter = ec;
+//			enemyLayout = lp;
+//			vg = (ViewGroup) findViewById(R.layout.enemylayout);
+//			enemyView = LayoutInflater.from(context).inflate(
+//					R.layout.enemylayout, vg, false);
+//		}
+//
+//		// region eiGettersSetters
+//		public EnemyCharacter getEnemyCharacter() {
+//			return enemyCharacter;
+//		}
+//
+//		public void setEnemyCharacter(EnemyCharacter enemyCharacter) {
+//			this.enemyCharacter = enemyCharacter;
+//		}
+//
+//		public LayoutPackage getEnemyLayout() {
+//			return enemyLayout;
+//		}
+//
+//		public void setEnemyLayout(LayoutPackage enemyLayout) {
+//			this.enemyLayout = enemyLayout;
+//		}
+//
+//		public ViewGroup getVg() {
+//			return vg;
+//		}
+//
+//		public void setVg(ViewGroup vg) {
+//			this.vg = vg;
+//		}
+//
+//		public View getEnemyView() {
+//			return enemyView;
+//		}
+//
+//		public void setEnemyView(View enemyView) {
+//			this.enemyView = enemyView;
+//		}
+//
+//		public int getId() {
+//			return id;
+//		}
+//
+//		public void setId(int id) {
+//			this.id = id;
+//		}
+//
+//		// endregion eiGettersSetters
+//
+//	}
 
 	// public class LayoutPackage extends ButtonEventCreator implements
 	// OnClickListener {
@@ -1067,6 +1068,12 @@ public class Battle extends Activity implements OnClickListener,
 			break;
 		}
 	}
+	
+//	public void onButtonEvent(com.rpgplayground.layout.EnemyInterface ei,
+//			ButtonEvent event, Ability ability) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	private void createAbilityDialog(int enemyId) {
 		dialog = new Dialog(context);
@@ -1143,5 +1150,7 @@ public class Battle extends Activity implements OnClickListener,
 		return abilityView;
 
 	}
+
+
 
 }
