@@ -70,6 +70,10 @@
             android:name=".activity.DialogTest"
             android:label="DialogTest" >
         </activity>
+        <activity
+            android:name=".activity.MapTest"
+            android:label="MapTest" >
+        </activity>
         <!-- <activity -->
         <!-- android:name=".More" -->
         <!-- android:label="More..." -->
